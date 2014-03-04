@@ -115,20 +115,32 @@ def add_upgrade_action():
     ActionsMenu.clear()
     upgrade_action = ActionsMenu.addAction("Upgrade all packages")
     AptNotify.connect(upgrade_action, QtCore.SIGNAL("triggered()"), upgrade)
+    add_help_action()
     add_quit_action()
+    
 
 def add_hide_action():
     ActionsMenu.clear()
     if icon_config == "show":
         hide_action = ActionsMenu.addAction("Hide until updates available")
         AptNotify.connect(hide_action,QtCore.SIGNAL("triggered()"),set_noicon)
+    add_help_action()
     add_quit_action()
+    
 
 def add_quit_action():
     ActionsMenu.addSeparator()
-    quit_action = ActionsMenu.addAction(QuitIcon,"Quit Apt-Notification")
+    quit_action = ActionsMenu.addAction(QuitIcon,"Quit Apt-Notifier")
     AptNotify.connect(quit_action, QtCore.SIGNAL("triggered()"), AptNotify.exit)
-
+    
+def add_help_action():
+    ActionsMenu.addSeparator()
+    help_action = ActionsMenu.addAction(HelpIcon,"Apt-Notifier Help")
+    help_action.triggered.connect(open_help)
+    
+def open_help():
+    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual11/index.html#section07-2'],shell=True)
+    
 # General application code	
 def main():
     # Define Core objects, Tray icon and QTimer 
@@ -146,8 +158,10 @@ def main():
     # Define the icons:
     global NoUpdatesIcon
     global NewUpdatesIcon
+    global HelpIcon
     NoUpdatesIcon = QtGui.QIcon("/usr/share/icons/mnotify-none.png")
     NewUpdatesIcon  = QtGui.QIcon("/usr/share/icons/mnotify-some.png")
+    HelpIcon = QtGui.QIcon("/usr/share/icons/Tango/22x22/apps/gnome-help.png")
     QuitIcon = QtGui.QIcon("/usr/share/icons/oxygen/22x22/actions/system-shutdown.png")
     # Create the right-click menu and add the Tooltip text
     global ActionsMenu
