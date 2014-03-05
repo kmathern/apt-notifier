@@ -153,6 +153,7 @@ def add_hide_action():
     if icon_config == "show":
         hide_action = ActionsMenu.addAction("Hide until updates available")
         AptNotify.connect(hide_action,QtCore.SIGNAL("triggered()"),set_noicon)
+    add_help_action()
     add_quit_action()
 
 def add_quit_action():
@@ -166,7 +167,6 @@ def add_help_action():
     help_action.triggered.connect(open_help)
     
 def open_help():
-    #subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual11/index.html#section07-2'],shell=True)
     subprocess.Popen(['xdg-open file:///usr/share/synaptic/html/index.html'],shell=True)
 
 # General application code	
