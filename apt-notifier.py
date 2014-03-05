@@ -58,6 +58,7 @@ def check_updates():
         AptIcon.show()
         AptIcon.setToolTip(text)
         add_upgrade_action()
+        #show_updates_action()
         # Shows the pop up message only if not displayed before 
         if message_status == "not displayed":
             def show_message():
@@ -88,6 +89,25 @@ def upgrade():
     run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
     check_updates()
 
+def showupdates():
+    script = '''#!/bin/bash
+    x-terminal-emulator --hold -e apt-get -o Debug::NoLocking=true --trivial-only -V $(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=)
+    #x-terminal-emulator --hold -e cat <(echo apt-get $(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=)) <(apt-get -o Debug::NoLocking=true --trivial-only -V $(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=) 2>/dev/null) | grep -v '^E: Trivial Only'
+    sleep 5
+    PID=`pidof apt-get | cut -f 1 -d " "`
+    if [ $PID ]; then
+        while (ps -p $PID > /dev/null); do
+            sleep 5
+        done
+    fi
+    '''
+    script_file = tempfile.NamedTemporaryFile('wt')
+    script_file.write(script)
+    script_file.flush()
+    run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
+    check_updates()
+
+
 # Define the action on clicking Tray Icon
 def start_synaptic_activated(reason):
     if reason == QtGui.QSystemTrayIcon.Trigger:
@@ -113,11 +133,18 @@ def set_noicon():
 
 def add_upgrade_action():
     ActionsMenu.clear()
+    show_updates_action = ActionsMenu.addAction("Show Upgrades")
+    AptNotify.connect(show_updates_action, QtCore.SIGNAL("triggered()"), showupdates)
     upgrade_action = ActionsMenu.addAction("Upgrade all packages")
     AptNotify.connect(upgrade_action, QtCore.SIGNAL("triggered()"), upgrade)
     add_help_action()
     add_quit_action()
-    
+
+#def show_updates_action():
+    #ActionsMenu.clear()
+    #show_updates_action = ActionsMenu.addAction("Show Upgrades")
+    #AptNotify.connect(show_updates_action, QtCore.SIGNAL("triggered()"), showupdates)
+    #add_quit_action()
 
 def add_hide_action():
     ActionsMenu.clear()
@@ -149,6 +176,7 @@ def main():
     global QuitIcon
     global icon_config
     global upgrade_action
+    #global show_updates_action
     global quit_action    
     global Timer
     AptNotify = QtGui.QApplication(sys.argv)
