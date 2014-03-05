@@ -1,3 +1,9 @@
+apt-notifier (1.0.7mcr120+0) UNRELEASED; urgency=low
+
+  * Show Upgrades - added yad/zenity/xmessage windows 
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Wed, 05 Mar 2014 17:57:45 -0500
+
 apt-notifier (1.0.6mcr120+1) mepis; urgency=low
 
   [ Kent Mathern ]
