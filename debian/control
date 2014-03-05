@@ -1,15 +1,17 @@
 Source: apt-notifier
 Section: admin
 Priority: optional
-Maintainer: Kent Mathern <maintainer@mepiscommunity.org>
+Maintainer: Steve (Stevo) Pusser <maintainer@mepiscommunity.org>
+Uploaders: Kent Mathern <maintainer@mepiscommunity.org>
 Build-Depends: debhelper (>= 7.0.50~)
 Standards-Version: 3.9.3
 Homepage: http://forum.mepiscommunity.org/
 
 Package: apt-notifier
 Architecture: all
-Depends: ${misc:Depends}, apt, bash (>= 3.2-4), konsole|x-terminal-emulator, python, python-qt4, synaptic
+Depends: ${misc:Depends}, apt, bash (>= 3.2-4), konsole|x-terminal-emulator,
+ python-qt4, synaptic
 Conflicts: mepis-aptnotify
 Replaces: mepis-aptnotify 
-Description: Tray applet to notify of availability of apt updates
+Description: tray applet to notify of apt updates
  .

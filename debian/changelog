@@ -1,10 +1,15 @@
-apt-notifier (1.0.6mcr120+0) UNRELEASED; urgency=low
+apt-notifier (1.0.6mcr120+1) mepis; urgency=low
 
+  [ Kent Mathern ]
   * added Show Upgrades right-click action
   * added Apt-Notifier Help right-click action
   * added UpgradeType config setting 
 
- -- Kent Mathern <maintainer@mepiscommunity.org>  Wed, 05 Mar 2014 02:49:40 -0500
+  [ Steven Pusser (Stevo) ]
+  * Remove python as a dependency; python-qt4 already brings that in.
+  * Rebuild for MEPIS 12 community repository.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Wed, 05 Mar 2014 06:37:31 -0800
 
 apt-notifier (1.0.5mcr120+1) mepis; urgency=low
 
