@@ -92,15 +92,34 @@ def upgrade():
 
 def showupdates():
     script = '''#!/bin/bash
+    DoUpgrade(){
+      if [ "$?" -eq 0 ]; then
+          [ ! -e /usr/bin/kdesu ] || kdesu -c "konsole -e apt-get $UpgradeType"
+          [ -e /usr/bin/kdesu ]   || su-to-root -X -c "x-terminal-emulator -e apt-get $UpgradeType"
+      fi
+    }
     UpgradeType=$(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=)
     echo "apt-get $UpgradeType" > upgrades
     apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> upgrades
-    case $(update-alternatives --get-selections | grep x-terminal-emulator | awk '{print $3}') in
-    /usr/bin/xfce4-terminal.wrapper) xfce4-terminal -T $UpgradeType  --hold -x cat upgrades& ;;
-                   /usr/bin/konsole) konsole                         --hold -e cat upgrades& ;;
-                     /usr/bin/xterm) xterm          -T $UpgradeType   -hold -e cat upgrades& ;;
-                                  *) :                                                       ;;
-    esac
+    if  [ -x /usr/bin/zenity ]
+      then  
+        zenity \
+        --width=640 --height=480 \
+        --text-info --title=$UpgradeType --filename=upgrades \
+        --checkbox='enable '$UpgradeType \
+        --ok-label=$UpgradeType --cancel-label=exit
+        DoUpgrade
+    elif [ -x /usr/bin/yad ]
+      then    
+        yad \
+        --width=640 --height=480 \
+        --text-info --title=$UpgradeType --filename=upgrades \
+        --button exit:1 --button $UpgradeType:0 --buttons-layout=spread
+        DoUpgrade
+    else [ -x /usr/bin/xmessage ]
+        xmessage -buttons exit:1,$UpgradeType:0 -center -file upgrades
+        DoUpgrade
+    fi
     sleep 5
     PID=`pidof apt-get | cut -f 1 -d " "`
     if [ $PID ]; then
@@ -143,8 +162,8 @@ def add_upgrade_action():
     ActionsMenu.clear()
     show_updates_action = ActionsMenu.addAction("Show Upgrades")
     AptNotify.connect(show_updates_action, QtCore.SIGNAL("triggered()"), showupdates)
-    upgrade_action = ActionsMenu.addAction("Upgrade all packages")
-    AptNotify.connect(upgrade_action, QtCore.SIGNAL("triggered()"), upgrade)
+    #upgrade_action = ActionsMenu.addAction("Upgrade all packages")
+    #AptNotify.connect(upgrade_action, QtCore.SIGNAL("triggered()"), upgrade)
     add_help_action()
     add_quit_action()
 
@@ -167,8 +186,8 @@ def add_help_action():
     help_action.triggered.connect(open_help)
     
 def open_help():
+    #subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual11/index.html#section07-2'],shell=True)
     subprocess.Popen(['xdg-open file:///usr/share/synaptic/html/index.html'],shell=True)
-
 # General application code	
 def main():
     # Define Core objects, Tray icon and QTimer 
