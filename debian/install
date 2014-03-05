@@ -1,0 +1,11 @@
+#15periodic-update etc/apt/apt.conf.d
+apt-notifier-autostart-xdg.desktop etc/xdg/autostart
+apt-notifier usr/bin
+apt-notifier.py usr/bin
+apt-notifier-unhide-Icon usr/bin
+apt-notifier-autostart.desktop usr/share/autostart
+apt-notifier-menu.desktop usr/share/applications
+mnotify-none.png usr/share/icons
+mnotify-some.png usr/share/icons
+
+

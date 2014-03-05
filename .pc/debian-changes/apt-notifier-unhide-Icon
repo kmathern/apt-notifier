@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# If the apt-notifierrc exists and has the "DontShowIcon blah blah" in it, delete the "DontShowIcon blah blah" stuff to make icon visible
+sed -i '/^\[DontShowIcon/d' ~/.kde/share/config/apt-notifierrc
+
+# start the notifier from the startup script
+/usr/bin/apt-notifier

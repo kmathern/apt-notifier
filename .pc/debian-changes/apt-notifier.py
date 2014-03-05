@@ -9,7 +9,7 @@ from os import environ
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 
-rc_file_name = environ.get('HOME') + '/.config/apt-notifierrc'
+rc_file_name = environ.get('HOME') + '/.kde/share/config/apt-notifierrc'
 message_status = "not displayed"
 
 # Check for updates, using subprocess.Popen
@@ -20,22 +20,31 @@ def check_updates():
     sorted_list_of_upgrades() 
     {
         #Create a sorted list of the names of the packages that are upgradeable.
-        LC_ALL=en_US apt-get -o 'Debug::NoLocking=true' --trivial-only -V $(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=) 2>/dev/null \
-        |  sed -n '/upgraded:/,$p' | grep ^'  ' | awk '{ print $1 }' | sort
+        LC_ALL=en_US apt-get -o 'Debug::NoLocking=true' --trivial-only -V upgrade 2>/dev/null \
+        |   grep -v -e 'lists...' \
+                    -e 'dependency tree' \
+                    -e 'information...' \
+                    -e 'back:' \
+                    -e 'upgraded:' \
+                    -e 'upgraded.' \
+                    -e 'archives.' \
+                    -e 'used.'\
+                    -e 'freed.'\
+        |   awk '{ print $1 }' | sort
     }
     if [ -s /var/lib/synaptic/preferences ]; 
         then 
             #/var/lib/synaptic/preferences is a non-zero size file, which means there are packages pinned in Synaptic. 
             #Remove from the sorted_list_of_upgrades, packages that are pinned in Synaptic, and then get a count of remaining.
             
-            sorted_list_of_upgrades | grep -vx $(grep 'Package:' /var/lib/synaptic/preferences | awk {'print "-e " $2'}) | wc -l
+            sorted_list_of_upgrades|grep -vx $(cat /var/lib/synaptic/preferences|grep 'Package:'|sed -e 's/Package: /-e /g')|wc -l
         
         else 
             #/var/lib/synaptic/preferences is either a zero byte file, meaning packages were pinned in Synaptic at some time in 
             # the past but none are currently pinned. Or the file is not present, meaning packages have never been pinned using 
             # Synaptic. In either case, just get a count of how many upgradeable packages are in the list.
             
-            sorted_list_of_upgrades | wc -l
+            sorted_list_of_upgrades|wc -l
     fi
     '''
     script_file = tempfile.NamedTemporaryFile('wt')
@@ -58,7 +67,6 @@ def check_updates():
         AptIcon.show()
         AptIcon.setToolTip(text)
         add_upgrade_action()
-        #show_updates_action()
         # Shows the pop up message only if not displayed before 
         if message_status == "not displayed":
             def show_message():
@@ -72,12 +80,9 @@ def start_synaptic():
     check_updates()
 
 def upgrade():
-    script = '''#!/bin/bash
-    UpgradeType=$(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=)
-    [ ! -e /usr/bin/kdesu ] || kdesu -c "konsole -e apt-get $UpgradeType"
-    [ -e /usr/bin/kdesu ]   || su-to-root -X -c "x-terminal-emulator -e apt-get $UpgradeType"
-    sleep 5
-    PID=`pidof apt-get | cut -f 1 -d " "`
+    script = '''#!/bin/sh
+    /usr/bin/su-to-root -X -c "x-terminal-emulator -e apt-get upgrade"
+    PID=`pidof apt-get| cut -f 1 -d " "`
     if [ $PID ]; then
         while (ps -p $PID > /dev/null); do
             sleep 5
@@ -89,32 +94,6 @@ def upgrade():
     script_file.flush()
     run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
     check_updates()
-
-def showupdates():
-    script = '''#!/bin/bash
-    UpgradeType=$(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=)
-    echo "apt-get $UpgradeType" > upgrades
-    apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> upgrades
-    case $(update-alternatives --get-selections | grep x-terminal-emulator | awk '{print $3}') in
-    /usr/bin/xfce4-terminal.wrapper) xfce4-terminal -T $UpgradeType  --hold -x cat upgrades& ;;
-                   /usr/bin/konsole) konsole                         --hold -e cat upgrades& ;;
-                     /usr/bin/xterm) xterm          -T $UpgradeType   -hold -e cat upgrades& ;;
-                                  *) :                                                       ;;
-    esac
-    sleep 5
-    PID=`pidof apt-get | cut -f 1 -d " "`
-    if [ $PID ]; then
-        while (ps -p $PID > /dev/null); do
-            sleep 5
-        done
-    fi
-    '''
-    script_file = tempfile.NamedTemporaryFile('wt')
-    script_file.write(script)
-    script_file.flush()
-    run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
-    check_updates()
-
 
 # Define the action on clicking Tray Icon
 def start_synaptic_activated(reason):
@@ -122,14 +101,14 @@ def start_synaptic_activated(reason):
         start_synaptic()
 
 def read_icon_config():
-    """Reads ~/.config/apt-notifierrc, returns 'show' if file doesn't exist or does not contain DontShowIcon"""
+    """Reads ~/.kde/share/config/apt-notifierrc, returns 'show' if file doesn't exist or does not contain DontShowIcon"""
     command_string = "cat " + rc_file_name + " | grep -q DontShowIcon"
     exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
     if exit_state != 0:
         return "show"
 
 def set_noicon():
-    """Reads ~/.config/apt-notifierrc. If "DontShowIcon blah blah blah" is already there, don't write it again"""
+    """Reads ~/.kde/share/config/apt-notifierrc. If "DontShowIcon blah blah blah" is already there, don't write it again"""
     command_string = "cat " + rc_file_name + " | grep -q DontShowIcon"
     exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
     if exit_state != 0:
@@ -141,11 +120,8 @@ def set_noicon():
 
 def add_upgrade_action():
     ActionsMenu.clear()
-    show_updates_action = ActionsMenu.addAction("Show Upgrades")
-    AptNotify.connect(show_updates_action, QtCore.SIGNAL("triggered()"), showupdates)
     upgrade_action = ActionsMenu.addAction("Upgrade all packages")
     AptNotify.connect(upgrade_action, QtCore.SIGNAL("triggered()"), upgrade)
-    add_help_action()
     add_quit_action()
 
 def add_hide_action():
@@ -159,15 +135,6 @@ def add_quit_action():
     ActionsMenu.addSeparator()
     quit_action = ActionsMenu.addAction(QuitIcon,"Quit Apt-Notification")
     AptNotify.connect(quit_action, QtCore.SIGNAL("triggered()"), AptNotify.exit)
-
-def add_help_action():
-    ActionsMenu.addSeparator()
-    help_action = ActionsMenu.addAction(HelpIcon,"Apt-Notifier (Synaptic) Help")
-    help_action.triggered.connect(open_help)
-    
-def open_help():
-    #subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual11/index.html#section07-2'],shell=True)
-    subprocess.Popen(['xdg-open file:///usr/share/synaptic/html/index.html'],shell=True)
 
 # General application code	
 def main():
@@ -186,10 +153,8 @@ def main():
     # Define the icons:
     global NoUpdatesIcon
     global NewUpdatesIcon
-    global HelpIcon
     NoUpdatesIcon = QtGui.QIcon("/usr/share/icons/mnotify-none.png")
     NewUpdatesIcon  = QtGui.QIcon("/usr/share/icons/mnotify-some.png")
-    HelpIcon = QtGui.QIcon("/usr/share/icons/oxygen/22x22/apps/help-browser.png")
     QuitIcon = QtGui.QIcon("/usr/share/icons/oxygen/22x22/actions/system-shutdown.png")
     # Create the right-click menu and add the Tooltip text
     global ActionsMenu

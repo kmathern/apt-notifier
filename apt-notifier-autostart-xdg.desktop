@@ -1,0 +1,21 @@
+[Desktop Entry]
+Categories=Qt;KDE;Utility;X-KDE-Utilities-Desktop;
+Comment[en_US]=An applet to show apt updates
+Comment=An applet to show apt updates
+Exec=/usr/bin/apt-notifier
+GenericName[en_US]=Apt Update Notification
+GenericName=Apt Update Notification
+Icon=mnotify-some
+MimeType=
+Name[en_US]=Apt-notifier
+Name=Apt-notifier
+NotShowIn=KDE;
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-DocPath=
+

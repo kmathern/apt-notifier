@@ -13,6 +13,23 @@ then
   chmod 644 ~/.config/apt-notifierrc
 fi
 
+grep -q -e ^UpgradeType=upgrade -e ^UpgradeType=dist-upgrade ~/.config/apt-notifierrc
+if [ "$?" -eq 0 ]
+  then
+  :
+  else
+  #
+  #if a UpgradeType line not present,
+  #or not equal to 'upgrade' or 'dist-upgrade'
+  #set it to 'UpgradeType=upgrade'
+  #
+  sed -i '/^UpgradeType/d' ~/.config/apt-notifierrc 
+  echo -e 'UpgradeType=upgrade\n'>> ~/.config/apt-notifierrc
+fi
+
+#cleanup any blank lines or lines with only whitespace
+sed -i '/^[[:space:]]*$/d' ~/.config/apt-notifierrc
+
 # start the notifier
 python /usr/bin/apt-notifier.py& disown -h
 

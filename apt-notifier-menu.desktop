@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Apt-notifier
+GenericName=unhide/start
+Exec=/usr/bin/apt-notifier-unhide-Icon
+Icon=mnotify-some
+StartupNotify=false
+Categories=Qt;KDE;Utility;X-KDE-Utilities-Desktop;
+Comment=Re-enable apt-notifier icon even if no updates available

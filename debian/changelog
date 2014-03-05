@@ -1,0 +1,228 @@
+apt-notifier (1.0.6mcr120+0) UNRELEASED; urgency=low
+
+  * added Show Upgrades right-click action
+  * added Apt-Notifier Help right-click action
+  * added UpgradeType config setting 
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Wed, 05 Mar 2014 02:49:40 -0500
+
+apt-notifier (1.0.5mcr120+1) mepis; urgency=low
+
+  * Switch to native package format, change versioning to reflect that.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Tue, 04 Mar 2014 21:27:57 -0800
+
+apt-notifier (1.0-4mcr120~2) mepis; urgency=medium
+
+  * added /etc/xdg/autostart/apt-notifier-autostart-xdg.desktop autostart file
+  *  for xfce4 and other non-kde desktops
+  * change users settings file .kde/share/config/apt-notifierrc
+  *  to .config/apt-notifierrc
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Fri, 20 Dec 2013 14:00:06 -0500
+
+apt-notifier (1.0-4mcr120~1) mepis; urgency=low
+
+  * Repackaged for Mepis 12.0
+  * debian/control remove depends for kde-base-runtime and libqt4-core
+  * apt-notifier.py script changes
+  * debian/dirs comment out line #1 so 15periodic-update won't be installed
+  * debian/install comment out line #1 so 15periodic-update won't be installed
+  * added debian/preinst to add a 15periodic-update file if one doesn't exist
+  * added debian/postrm to remove 15periodic-update file if not installed by mepis-config
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Sun, 12 May 2013 13:53:55 -0400
+
+apt-notifier (1.0-3mlrepo2) mepis; urgency=low
+
+  * Repackaged For Mepis 8.5
+
+ -- Paul Brooks <maintainer@mepiscommunity.org>  Wed, 02 Jun 2010 22:31:47 +1200
+
+apt-notifier (1.0-3mlrepo1) mepis; urgency=low
+
+  * Incorporated changes Davo requested.
+  *
+  * a) Added Singleshot timer added in python script
+  *    to get Popup message lined up over icon.
+  *
+  * b) Deleted "X-KDE-autostart-after=panel" and
+  *    "X-DBUS-StartupType=Unique" lines from the 
+  *    apt-notifier-autostart.desktop file. They
+  *    don't belong in a KDE4 .desktop file.
+  *
+  * c) Added lines near bottom of python script 
+  *    "if AptNotify.isSessionRestored():"
+  *    "    sys.exit(1)"
+  *    to prevent start up of multiple notifiers
+  *
+  * d) In /usr/bin/apt-notifier-unhide-Icon script
+  *    disabled the code that kills any running
+  *    notifiers because its now handled in the python
+  *    script by item c.
+  *
+  * e) In python script
+  *
+  *    replaced "/usr/lib/kde4/libexec/kdesu" 
+  *    with "/usr/bin/su-to-root -X -c"
+  *
+  *    replaced "konsole -e apt-get upgrade"
+  *    with "x-terminal-emulator -e apt-get upgrade"
+  *
+  *    These changes are to make the notifier more
+  *    generic some possibly it can be used with antix.
+  *
+  *
+  * My own changes.
+  *
+  * a) Pulled the apt-notifier-check-Updates script
+  *    back into the python script.
+  *
+  * b) Added a "-e 'freed.'" line in the check_updates
+  *    section to catch the case where upgrades free up
+  *    space rather than take more space. Without this 
+  *    change the number of upgrades shown is one greater
+  *    than what it actually is.
+  *
+  * c) Deleted the X-KDE-* and X-DBUS-* lines from the
+  *    apt-notifier-menu.desktop file. Seems to
+  *    work without them.
+  
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Tue, 01 Jun 2010 09:30:38 -0400
+
+apt-notifier (1.0-2mlrepo2) mepis; urgency=low
+
+  * Repackaged For Mepis 8.5
+
+ -- Paul Brooks <maintainer@mepiscommunity.org>  Sun, 23 May 2010 21:41:38 +1200
+
+apt-notifier (1.0-2mlrepo1) mepis; urgency=low
+
+  * Prefix apt-get upgrade command with LC_ALL=en_US
+  * to make notifier work with non-english locales
+  * 
+  * The apt-get command now uses the --trivial-only 
+  * option instead of the -s option. This eliminates
+  * the "Inst" and "Conf" lines from the command's  
+  * output and speeds it up some.
+  *
+  * Added the -V option to the apt-get upgrade
+  * command. The code to isolate the package names
+  * is simpler with the -V option.
+  *
+  * Formatted the apt-notifier-check-Updates script
+  * with line breaks "\" to hopefully make it 
+  * easier to understand.
+  *
+  * Removed disabled code sections  
+  *
+  * Added synaptic as a dependency
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Sat, 22 May 2010 18:03:39 -0400
+
+apt-notifier (1.0-1mlrepo1) mepis; urgency=low
+
+  * Reversioned to 1.0 signifying initial stable release
+  * Repackaged for MEPISCR repo  
+
+ -- Paul Brooks <maintainer@mepiscommunity.org>  Tue, 18 May 2010 20:35:22 +1200
+
+apt-notifier (0.1-1mlcontrib10) mepis; urgency=low
+
+  * Gave up trying to fix gdebi-kde install hang
+    but kept the postinst as postinst- 
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Sat, 08 May 2010 19:06:52 -0400
+
+apt-notifier (0.1-1mlcontrib9) mepis; urgency=low
+
+  * Add test for the /var/lib/synaptic/preferences file 
+  * in the apt-notifier-check-Updates script
+
+  * Try to fix gdebi-kde install hang
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Fri, 07 May 2010 19:53:47 -0400
+
+apt-notifier (0.1-1mlcontrib8) mepis; urgency=low
+
+  * Revised the apt-notifier-check-Updates script to
+  * determine updates available excluding synpatic pins
+  * without using temporary files. The mktemp method 
+  * using two temp files is still in the script but is
+  * commented out.
+  *
+  * Removed the "-y" from the "apt-get install -y" 
+  * command for the "Upgrade all packages" action 
+  * in apt-notifier.py
+  *
+  * added debian/apt-notifier.postinst script
+  *
+  * added debian/apt-notifier.prerm script
+  *
+  * Added more dependencies to the debian/control
+  * file to hopefully reflect what they really are.
+  
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Fri, 09 May 2010 18:40:52 -0400
+
+apt-notifier (0.1-1mlcontrib7) mepis; urgency=low
+
+  * Enabled the experimental method that exclude synaptic pins
+  * from the updates available count.
+  * Revised the apt-notifier-check-Updates script, it now
+  * uses mktemp to create the temporary files.
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Wed, 05 May 2010 18:57:37 -0400
+
+apt-notifier (0.1-1mlcontrib6) mepis; urgency=low
+
+  * Adrian's changes to apt-notifier.py to add an 
+  * 'apt-get upgrade -y' right click action.
+  *
+  * Adrian's changes to simplify apt-notifier-unhide-Icon
+  * script and avoid using a temporary file
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Sun, 02 May 2010 11:34:51 -0400
+
+apt-notifier (0.1-1mlcontrib5) mepis; urgency=low
+
+  * 
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Sat, 01 May 2010 14:29:11 -0400
+
+apt-notifier (0.1-1mlcontrib4) mepis; urgency=low
+
+  * Added auto-unhide option - notifier icon can be hidden when no updates
+  * and will reappear when updates become available.
+  * Popup message added - appears when updates become available.
+  * Experimental method of getting update count added, it uses
+  * the apt-notifier-check-Updates script to returns the number
+  * of updates excluding Synaptic pinned packages. 
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Fri, 30 Apr 2010 18:05:28 -0400
+
+apt-notifier (0.1-1mlcontrib3) mepis; urgency=low
+
+  * modified apt-notifier.py script to pick up more updates
+  * added /usr/share/autostart/apt-notifier.autostart.desktop file
+  * renamed /usr/share/applications/apt-notifier.desktop apt-notifier.menu.desktop
+  * modified apt-notifier script to only start notifier if no other instances running
+  
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Wed, 28 Apr 2010 09:01:09 -0400
+
+apt-notifier (0.1-1mlcontrib2) mepis; urgency=low
+
+  * changed .desktop line 12 from X-DBUS-StartupType=Unique to =None
+  *
+  * modified script so it won't overwrite the ~/.kde/share/config/apt-notifierrc file 
+  * if it already exists
+  *
+  * deleted quit icon
+  
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Mon, 26 Apr 2010 16:03:25 -0400
+
+apt-notifier (0.1-1mlcontrib1) mepis; urgency=low
+
+  * 
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Sat, 24 Apr 2010 17:49:05 -0400
+

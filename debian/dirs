@@ -1,0 +1,6 @@
+#etc/apt/apt.conf.d
+etc/xdg/autostart
+usr/bin
+usr/share/applications
+usr/share/autostart
+usr/share/icons
