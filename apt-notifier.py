@@ -20,7 +20,7 @@ def check_updates():
     sorted_list_of_upgrades() 
     {
         #Create a sorted list of the names of the packages that are upgradeable.
-        LC_ALL=en_US apt-get -o 'Debug::NoLocking=true' --trivial-only -V $(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=) 2>/dev/null \
+        LC_ALL=en_US apt-get -o 'Debug::NoLocking=true' --trivial-only -V $(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=) 2>/dev/null \
         |  sed -n '/upgraded:/,$p' | grep ^'  ' | awk '{ print $1 }' | sort
     }
     if [ -s /var/lib/synaptic/preferences ]; 
@@ -72,7 +72,7 @@ def start_synaptic():
 
 def upgrade():
     script = '''#!/bin/bash
-    UpgradeType=$(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=)
+    UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
     [ ! -e /usr/bin/kdesu ] || kdesu -c "konsole -e apt-get $UpgradeType"
     [ -e /usr/bin/kdesu ]   || su-to-root -X -c "x-terminal-emulator -e apt-get $UpgradeType"
     sleep 5
@@ -97,7 +97,7 @@ def showupdates():
           [ -e /usr/bin/kdesu ]   || su-to-root -X -c "x-terminal-emulator -e apt-get $UpgradeType"
       fi
     }
-    UpgradeType=$(grep ^UpgradeType .config/apt-notifierrc | cut -f2 -d=)
+    UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
     echo "apt-get $UpgradeType" > upgrades
     apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> upgrades
     if  [ -x /usr/bin/zenity ]
