@@ -1,3 +1,9 @@
+apt-notifier (1.0.7mcr120+2) mepis; urgency=low
+
+  * Rebuild for MEPIS 12 community repository.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Thu, 06 Mar 2014 07:40:45 -0800
+
 apt-notifier (1.0.7mcr120+1) mepis; urgency=low
 
   * change Show Upgrades right click action to View and Upgrade
