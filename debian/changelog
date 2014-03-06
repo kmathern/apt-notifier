@@ -1,4 +1,11 @@
-apt-notifier (1.0.7mcr120+0) UNRELEASED; urgency=low
+apt-notifier (1.0.7mcr120+1) mepis; urgency=low
+
+  * change Show Upgrades right click action to View and Upgrade
+  * change package description
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Thu, 06 Mar 2014 00:04:57 -0500
+
+apt-notifier (1.0.7mcr120+0) mepis; urgency=low
 
   * Show Upgrades - added yad/zenity/xmessage windows 
 
