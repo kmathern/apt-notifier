@@ -58,7 +58,6 @@ def check_updates():
         AptIcon.show()
         AptIcon.setToolTip(text)
         add_upgrade_action()
-        #show_updates_action()
         # Shows the pop up message only if not displayed before 
         if message_status == "not displayed":
             def show_message():
@@ -160,7 +159,7 @@ def set_noicon():
 
 def add_upgrade_action():
     ActionsMenu.clear()
-    show_updates_action = ActionsMenu.addAction("Show Upgrades")
+    show_updates_action = ActionsMenu.addAction("View and Upgrade")
     AptNotify.connect(show_updates_action, QtCore.SIGNAL("triggered()"), showupdates)
     #upgrade_action = ActionsMenu.addAction("Upgrade all packages")
     #AptNotify.connect(upgrade_action, QtCore.SIGNAL("triggered()"), upgrade)
