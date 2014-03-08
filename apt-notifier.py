@@ -73,8 +73,9 @@ def start_synaptic():
 def showupdates():
     script = '''#!/bin/bash
     UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
-    echo "apt-get $UpgradeType" > upgrades
-    apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> upgrades
+    upgrades=`mktemp /tmp/apt-notifier.upgrades.XXXXXXXXXX`
+    echo "apt-get $UpgradeType" > "$upgrades"
+    apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$upgrades"
     DoUpgrade(){
       if [ "$?" -eq 0 ]; then
         if (xprop -root | grep -q -i kde)
@@ -113,7 +114,7 @@ def showupdates():
       then  
         zenity \
         --width=640 --height=480 \
-        --text-info --title=$UpgradeType --filename=upgrades \
+        --text-info --title=$UpgradeType --filename="$upgrades" \
         --checkbox='enable '$UpgradeType \
         --ok-label=$UpgradeType --cancel-label=exit
         DoUpgrade
@@ -121,11 +122,11 @@ def showupdates():
       then    
         yad \
         --width=640 --height=480 \
-        --text-info --title=$UpgradeType --filename=upgrades \
+        --text-info --title=$UpgradeType --filename="$upgrades" \
         --button exit:1 --button $UpgradeType:0 --buttons-layout=spread
         DoUpgrade
     else [ -x /usr/bin/xmessage ]
-        xmessage -buttons exit:1,$UpgradeType:0 -center -file upgrades
+        xmessage -buttons exit:1,$UpgradeType:0 -center -file "$upgrades"
         DoUpgrade
     fi
     sleep 5
@@ -135,6 +136,7 @@ def showupdates():
             sleep 5
         done
     fi
+    rm -rf "$upgrades"
     '''
     script_file = tempfile.NamedTemporaryFile('wt')
     script_file.write(script)
