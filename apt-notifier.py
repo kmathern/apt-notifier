@@ -70,36 +70,45 @@ def start_synaptic():
     run = subprocess.Popen(['/usr/bin/su-to-root -X -c synaptic'],shell=True).wait()
     check_updates()
 
-def upgrade():
-    script = '''#!/bin/bash
-    UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
-    [ ! -e /usr/bin/kdesu ] || kdesu -c "konsole -e apt-get $UpgradeType"
-    [ -e /usr/bin/kdesu ]   || su-to-root -X -c "x-terminal-emulator -e apt-get $UpgradeType"
-    sleep 5
-    PID=`pidof apt-get | cut -f 1 -d " "`
-    if [ $PID ]; then
-        while (ps -p $PID > /dev/null); do
-            sleep 5
-        done
-    fi
-    '''
-    script_file = tempfile.NamedTemporaryFile('wt')
-    script_file.write(script)
-    script_file.flush()
-    run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
-    check_updates()
-
 def showupdates():
     script = '''#!/bin/bash
-    DoUpgrade(){
-      if [ "$?" -eq 0 ]; then
-          [ ! -e /usr/bin/kdesu ] || kdesu -c "konsole -e apt-get $UpgradeType"
-          [ -e /usr/bin/kdesu ]   || su-to-root -X -c "x-terminal-emulator -e apt-get $UpgradeType"
-      fi
-    }
     UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
     echo "apt-get $UpgradeType" > upgrades
     apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> upgrades
+    DoUpgrade(){
+      if [ "$?" -eq 0 ]; then
+        if (xprop -root | grep -q -i kde)
+          then
+            # running KDE
+            # can't get su-to-root to work in newer KDE's, so use kdesu for authentication  
+            # if x-terminal-emulator is set to xfce4-terminal.wrapper, use xfce4-terminal instead 
+            #   because the --hold option doesn't work with the wrapper. Also need to enclose the
+            #   apt-get command in single quotes.
+            # if x-terminal-emulator is set to xterm, use konsole instead, if it's available (it should be)
+            case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
+              konsole               )                                             kdesu -c        "konsole --hold -e  apt-get $UpgradeType " ;;
+              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal --hold -e 'apt-get $UpgradeType'" ;;
+              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c        "konsole --hold -e  apt-get $UpgradeType "
+                                      [   -e /usr/bin/konsole ]        ||         kdesu -c          "xterm  -hold -e  apt-get $UpgradeType " ;;
+              *                     )                                                                                                        ;;
+            esac  
+          else
+            # running a non KDE desktop
+            # use su-to-root for authentication, it should end up using gksu
+            # if x-terminal-emulator is set to xfce4-terminal.wrapper, use xfce4-terminal instead 
+            #   because the --hold option doesn't work with the wrapper. Also need to enclose the
+            #   apt-get command in single quotes.
+            # if x-terminal-emulator is set to xterm, use xfce4-terminal instead, if it's available (it is in MX) 
+            case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
+              konsole               )                                     su-to-root -X -c        "konsole --hold -e  apt-get $UpgradeType " ;;
+              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal --hold -e 'apt-get $UpgradeType'" ;;
+              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal --hold -e 'apt-get $UpgradeType'"
+                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c          "xterm  -hold -e  apt-get $UpgradeType " ;;             
+              *                     )                                                                                                        ;;
+            esac
+        fi    
+      fi
+    }
     if  [ -x /usr/bin/zenity ]
       then  
         zenity \
