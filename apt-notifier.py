@@ -73,9 +73,18 @@ def start_synaptic():
 def showupdates():
     script = '''#!/bin/bash
     UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
-    upgrades=`mktemp /tmp/apt-notifier.upgrades.XXXXXXXXXX`
-    echo "apt-get $UpgradeType" > "$upgrades"
-    apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$upgrades"
+    TMP=$(mktemp -d /tmp/apt-notifier.XXXXXX)
+    echo "apt-get $UpgradeType" > "$TMP"/upgrades
+    apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$TMP"/upgrades
+    #the terminal commands will only execute a single command, so build a upgrade script
+    # to do the apt-get upgrade (or dist-upgrade) and then display a "complete" msg.
+    echo "#!/bin/bash"> "$TMP"/upgradeScript
+    echo "apt-get "$UpgradeType>> "$TMP"/upgradeScript
+    echo "echo">> "$TMP"/upgradeScript
+    echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
+    echo "echo">> "$TMP"/upgradeScript
+    echo "echo 'this terminal window can now be closed'">> "$TMP"/upgradeScript
+    echo "echo">> "$TMP"/upgradeScript
     DoUpgrade(){
       if [ "$?" -eq 0 ]; then
         if (xprop -root | grep -q -i kde)
@@ -87,11 +96,11 @@ def showupdates():
             #   apt-get command in single quotes.
             # if x-terminal-emulator is set to xterm, use konsole instead, if it's available (it should be)
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                             kdesu -c        "konsole --hold -e  apt-get $UpgradeType " ;;
-              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal --hold -e 'apt-get $UpgradeType'" ;;
-              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c        "konsole --hold -e  apt-get $UpgradeType "
-                                      [   -e /usr/bin/konsole ]        ||         kdesu -c          "xterm  -hold -e  apt-get $UpgradeType " ;;
-              *                     )                                                                                                        ;;
+              konsole               )                                             kdesu -c        "konsole --hold -e  bash $TMP/upgradeScript " ;;
+              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal --hold -e 'bash $TMP/upgradeScript'" ;;
+              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c        "konsole --hold -e  bash $TMP/upgradeScript "
+                                      [   -e /usr/bin/konsole ]        ||         kdesu -c          "xterm  -hold -e  bash $TMP/upgradeScript " ;;
+              *                     )                                                                                                           ;;
             esac  
           else
             # running a non KDE desktop
@@ -101,11 +110,11 @@ def showupdates():
             #   apt-get command in single quotes.
             # if x-terminal-emulator is set to xterm, use xfce4-terminal instead, if it's available (it is in MX) 
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                     su-to-root -X -c        "konsole --hold -e  apt-get $UpgradeType " ;;
-              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal --hold -e 'apt-get $UpgradeType'" ;;
-              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal --hold -e 'apt-get $UpgradeType'"
-                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c          "xterm  -hold -e  apt-get $UpgradeType " ;;             
-              *                     )                                                                                                        ;;
+              konsole               )                                     su-to-root -X -c        "konsole --hold -e  bash $TMP/upgradeScript " ;;
+              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal --hold -e 'bash $TMP/upgradeScript'" ;;
+              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal --hold -e 'bash $TMP/upgradeScript'"
+                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c          "xterm  -hold -e  bash $TMP/upgradeScript " ;;             
+              *                     )                                                                                                           ;;
             esac
         fi    
       fi
@@ -114,7 +123,7 @@ def showupdates():
       then  
         zenity \
         --width=640 --height=480 \
-        --text-info --title=$UpgradeType --filename="$upgrades" \
+        --text-info --title=$UpgradeType --filename="$TMP"/upgrades \
         --checkbox='enable '$UpgradeType \
         --ok-label=$UpgradeType --cancel-label=exit
         DoUpgrade
@@ -122,11 +131,11 @@ def showupdates():
       then    
         yad \
         --width=640 --height=480 \
-        --text-info --title=$UpgradeType --filename="$upgrades" \
+        --text-info --title=$UpgradeType --filename="$TMP"/upgrades \
         --button exit:1 --button $UpgradeType:0 --buttons-layout=spread
         DoUpgrade
     else [ -x /usr/bin/xmessage ]
-        xmessage -buttons exit:1,$UpgradeType:0 -center -file "$upgrades"
+        xmessage -buttons exit:1,$UpgradeType:0 -center -file "$TMP"/upgrades
         DoUpgrade
     fi
     sleep 5
@@ -136,7 +145,7 @@ def showupdates():
             sleep 5
         done
     fi
-    rm -rf "$upgrades"
+    rm -rf "$TMP"
     '''
     script_file = tempfile.NamedTemporaryFile('wt')
     script_file.write(script)
