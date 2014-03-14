@@ -1,3 +1,12 @@
+apt-notifier (1.0.8mcr120+1) mepis; urgency=low
+
+  * Fixes to make compatible with earlier MEPIS releases.
+  * "upgrades" file in ~ now gets deleted.
+  * Terminal window now stays open after upgrade completes, and displays 
+    "complete" message.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Sun, 09 Mar 2014 11:37:03 -0700
+
 apt-notifier (1.0.7mcr120+2) mepis; urgency=low
 
   * Rebuild for MEPIS 12 community repository.
