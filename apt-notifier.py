@@ -183,7 +183,8 @@ def add_upgrade_action():
     AptNotify.connect(show_updates_action, QtCore.SIGNAL("triggered()"), showupdates)
     #upgrade_action = ActionsMenu.addAction("Upgrade all packages")
     #AptNotify.connect(upgrade_action, QtCore.SIGNAL("triggered()"), upgrade)
-    add_help_action()
+    add_apt_notifier_help_action()
+    add_synaptic_help_action()
     add_quit_action()
 
 def add_hide_action():
@@ -191,7 +192,8 @@ def add_hide_action():
     if icon_config == "show":
         hide_action = ActionsMenu.addAction("Hide until updates available")
         AptNotify.connect(hide_action,QtCore.SIGNAL("triggered()"),set_noicon)
-    add_help_action()
+    add_apt_notifier_help_action()
+    add_synaptic_help_action()
     add_quit_action()
 
 def add_quit_action():
@@ -199,14 +201,21 @@ def add_quit_action():
     quit_action = ActionsMenu.addAction(QuitIcon,"Quit Apt-Notification")
     AptNotify.connect(quit_action, QtCore.SIGNAL("triggered()"), AptNotify.exit)
 
-def add_help_action():
+def add_apt_notifier_help_action():
     ActionsMenu.addSeparator()
-    help_action = ActionsMenu.addAction(HelpIcon,"Apt-Notifier (Synaptic) Help")
-    help_action.triggered.connect(open_help)
+    apt_notifier_help_action = ActionsMenu.addAction(HelpIcon,"Apt-Notifier Help")
+    apt_notifier_help_action.triggered.connect(open_apt_notifier_help)
     
-def open_help():
-    #subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual11/index.html#section07-2'],shell=True)
-    subprocess.Popen(['xdg-open file:///usr/share/synaptic/html/index.html'],shell=True)
+def open_apt_notifier_help():
+    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/doc_mx/mxapps.html#notify'],shell=True)
+    
+def add_synaptic_help_action():
+    ActionsMenu.addSeparator()
+    synaptic_help_action = ActionsMenu.addAction(HelpIcon,"Synaptic Help")
+    synaptic_help_action.triggered.connect(open_synaptic_help)
+    
+def open_synaptic_help():
+    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/doc_mx/synaptic.html'],shell=True)
 # General application code	
 def main():
     # Define Core objects, Tray icon and QTimer 
