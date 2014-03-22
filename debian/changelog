@@ -1,3 +1,10 @@
+apt-notifier (1.0.9mcr120+1) mepis; urgency=low
+
+  * Adds MX-branded desktop file for non-KDE desktops, original apt-notifier only
+    appears in KDE menu now.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Sat, 15 Mar 2014 19:07:50 -0700
+
 apt-notifier (1.0.8mcr120+1) mepis; urgency=low
 
   * Fixes to make compatible with earlier MEPIS releases.
