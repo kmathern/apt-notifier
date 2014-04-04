@@ -76,15 +76,27 @@ def showupdates():
     TMP=$(mktemp -d /tmp/apt-notifier.XXXXXX)
     echo "apt-get $UpgradeType" > "$TMP"/upgrades
     apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$TMP"/upgrades
+    #remove Synaptic pinned packages
+    for i in $(grep ^Package: /var/lib/synaptic/preferences 2>/dev/null | awk '{print $2}' 2>/dev/null); do sed -i '/'$i'\(.*=>.*\)/d' "$TMP"/upgrades 2>/dev/null; done
+    #correct upgrades count
+    PossiblyWrongNumberOfUpgrades=$(grep ^[0-9]*' upgraded,' -o "$TMP"/upgrades | awk '{print $1}')
+    CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
+    sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades
     #the terminal commands will only execute a single command, so build a upgrade script
     # to do the apt-get upgrade (or dist-upgrade) and then display a "complete" msg.
     echo "#!/bin/bash"> "$TMP"/upgradeScript
+    echo "echo 'apt-get '"$UpgradeType>> "$TMP"/upgradeScript
+    echo 'SynapticPins=$(mktemp /etc/apt/preferences.d/synaptic-XXXXXX-pins)'>> "$TMP"/upgradeScript
+    echo 'ln -sf /var/lib/synaptic/preferences "$SynapticPins" 2>/dev/null'>> "$TMP"/upgradeScript
     echo "apt-get "$UpgradeType>> "$TMP"/upgradeScript
     echo "echo">> "$TMP"/upgradeScript
+    echo 'rm "$SynapticPins"'>> "$TMP"/upgradeScript
     echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
     echo "echo">> "$TMP"/upgradeScript
-    echo "echo 'this terminal window can now be closed'">> "$TMP"/upgradeScript
+    echo "echo -n 'this terminal window can now be closed '">> "$TMP"/upgradeScript
+    echo "read -sn 1 -p '(press any key to close)' -t 999999999">> "$TMP"/upgradeScript
     echo "echo">> "$TMP"/upgradeScript
+    echo "exit 0">> "$TMP"/upgradeScript    
     DoUpgrade(){
       if [ "$?" -eq 0 ]; then
         if (xprop -root | grep -q -i kde)
@@ -96,11 +108,11 @@ def showupdates():
             #   apt-get command in single quotes.
             # if x-terminal-emulator is set to xterm, use konsole instead, if it's available (it should be)
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                             kdesu -c        "konsole --hold -e  bash $TMP/upgradeScript " ;;
-              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal --hold -e 'bash $TMP/upgradeScript'" ;;
-              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c        "konsole --hold -e  bash $TMP/upgradeScript "
-                                      [   -e /usr/bin/konsole ]        ||         kdesu -c          "xterm  -hold -e  bash $TMP/upgradeScript " ;;
-              *                     )                                                                                                           ;;
+              konsole               )                                             kdesu -c        "konsole -e  bash $TMP/upgradeScript " ;;
+              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal -e 'bash $TMP/upgradeScript'" ;;
+              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c        "konsole -e  bash $TMP/upgradeScript "
+                                      [   -e /usr/bin/konsole ]        ||         kdesu -c          "xterm -e  bash $TMP/upgradeScript " ;;
+              *                     )                                                                                                    ;;
             esac  
           else
             # running a non KDE desktop
@@ -110,11 +122,11 @@ def showupdates():
             #   apt-get command in single quotes.
             # if x-terminal-emulator is set to xterm, use xfce4-terminal instead, if it's available (it is in MX) 
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                     su-to-root -X -c        "konsole --hold -e  bash $TMP/upgradeScript " ;;
-              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal --hold -e 'bash $TMP/upgradeScript'" ;;
-              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal --hold -e 'bash $TMP/upgradeScript'"
-                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c          "xterm  -hold -e  bash $TMP/upgradeScript " ;;             
-              *                     )                                                                                                           ;;
+              konsole               )                                     su-to-root -X -c        "konsole -e  bash $TMP/upgradeScript " ;;
+              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal -e 'bash $TMP/upgradeScript'" ;;
+              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal -e 'bash $TMP/upgradeScript'"
+                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c          "xterm -e  bash $TMP/upgradeScript " ;;             
+              *                     )                                                                                                    ;;
             esac
         fi    
       fi
