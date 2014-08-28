@@ -1,3 +1,9 @@
+apt-notifier (1.1.0mcr120+1) mepis; urgency=low
+
+  * Respect apt and Synaptic pinning in what updates are available.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Sun, 06 Apr 2014 09:20:03 -0700
+
 apt-notifier (1.0.9mcr120+1) mepis; urgency=low
 
   * Adds MX-branded desktop file for non-KDE desktops, original apt-notifier only
