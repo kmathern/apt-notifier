@@ -10,7 +10,7 @@ Homepage: http://forum.mepiscommunity.org/
 Package: apt-notifier
 Architecture: all
 Depends: ${misc:Depends}, apt, bash (>= 3.2-4), konsole | x-terminal-emulator,
- python-qt4, synaptic, yad | x11-utils| zenity
+ python-qt4, synaptic, yad
 Conflicts: mepis-aptnotify
 Replaces: mepis-aptnotify 
 Description: tray applet to notify of system and application updates

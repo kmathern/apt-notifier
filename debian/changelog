@@ -1,3 +1,16 @@
+apt-notifier (1.1.01mcr120+1) mepis; urgency=low
+
+  * Some changes to the main script make it dependent on yad, drop alternates to
+    yad.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Tue, 15 Jul 2014 08:08:12 -0700
+
+apt-notifier (1.1.0mcr120+1) mepis; urgency=low
+
+  * Respect apt and Synaptic pinning in what updates are available.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Sun, 06 Apr 2014 09:20:03 -0700
+
 apt-notifier (1.1.0mcr120+1) mepis; urgency=low
 
   * Respect apt and Synaptic pinning in what updates are available.
