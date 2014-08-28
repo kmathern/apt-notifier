@@ -72,33 +72,10 @@ def start_synaptic():
 
 def showupdates():
     script = '''#!/bin/bash
-    UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
-    TMP=$(mktemp -d /tmp/apt-notifier.XXXXXX)
-    echo "apt-get $UpgradeType" > "$TMP"/upgrades
-    apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$TMP"/upgrades
-    #remove Synaptic pinned packages
-    for i in $(grep ^Package: /var/lib/synaptic/preferences 2>/dev/null | awk '{print $2}' 2>/dev/null); do sed -i '/'$i'\(.*=>.*\)/d' "$TMP"/upgrades 2>/dev/null; done
-    #correct upgrades count
-    PossiblyWrongNumberOfUpgrades=$(grep ^[0-9]*' upgraded,' -o "$TMP"/upgrades | awk '{print $1}')
-    CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
-    sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades
-    #the terminal commands will only execute a single command, so build a upgrade script
-    # to do the apt-get upgrade (or dist-upgrade) and then display a "complete" msg.
-    echo "#!/bin/bash"> "$TMP"/upgradeScript
-    echo "echo 'apt-get '"$UpgradeType>> "$TMP"/upgradeScript
-    echo 'SynapticPins=$(mktemp /etc/apt/preferences.d/synaptic-XXXXXX-pins)'>> "$TMP"/upgradeScript
-    echo 'ln -sf /var/lib/synaptic/preferences "$SynapticPins" 2>/dev/null'>> "$TMP"/upgradeScript
-    echo "apt-get "$UpgradeType>> "$TMP"/upgradeScript
-    echo "echo">> "$TMP"/upgradeScript
-    echo 'rm "$SynapticPins"'>> "$TMP"/upgradeScript
-    echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
-    echo "echo">> "$TMP"/upgradeScript
-    echo "echo -n 'this terminal window can now be closed '">> "$TMP"/upgradeScript
-    echo "read -sn 1 -p '(press any key to close)' -t 999999999">> "$TMP"/upgradeScript
-    echo "echo">> "$TMP"/upgradeScript
-    echo "exit 0">> "$TMP"/upgradeScript    
     DoUpgrade(){
-      if [ "$?" -eq 0 ]; then
+      case $1 in
+        0)
+        BP="1"
         if (xprop -root | grep -q -i kde)
           then
             # running KDE
@@ -128,28 +105,143 @@ def showupdates():
                                       [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c          "xterm -e  bash $TMP/upgradeScript " ;;             
               *                     )                                                                                                    ;;
             esac
-        fi    
-      fi
+        fi
+        ;;
+        
+        2)
+        BP="1"
+        ;;
+        
+        4)
+        BP="0"
+        sed -i 's/UpgradeType='$UpgradeType'/UpgradeType='$OtherUpgradeType'/' .config/apt-notifierrc
+        ;;
+        
+        *)
+        BP="1"
+        ;;
+        
+       esac 
     }
-    if  [ -x /usr/bin/zenity ]
-      then  
-        zenity \
-        --width=640 --height=480 \
-        --text-info --title=$UpgradeType --filename="$TMP"/upgrades \
-        --checkbox='enable '$UpgradeType \
-        --ok-label=$UpgradeType --cancel-label=exit
-        DoUpgrade
-    elif [ -x /usr/bin/yad ]
-      then    
+
+    BP="0"
+    while [ $BP != "1" ]
+      do
+
+        UpgradeType=$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)
+        if [ "$UpgradeType" = "upgrade"      ]; then
+          OtherUpgradeType="dist-upgrade"
+        fi
+        if [ "$UpgradeType" = "dist-upgrade" ]; then
+          OtherUpgradeType="upgrade"
+        fi
+  
+        #test if ~/.config/apt-notifierrc contains a UpgradeAssumeYes line
+        # if it doesn't, add one and initially set it to "false"
+        grep -q ^UpgradeAssumeYes ~/.config/apt-notifierrc
+        if [ "$?" -ne 0 ]; then
+          echo "UpgradeAssumeYes=false">>~/.config/apt-notifierrc
+        fi
+        UpgradeAssumeYes=$(grep ^UpgradeAssumeYes ~/.config/apt-notifierrc | cut -f2 -d=)
+
+        #test if ~/.config/apt-notifierrc contains a UpgradeAutoClose line
+        # if it doesn't, add one and initially set it to "false"
+        grep -q ^UpgradeAutoClose ~/.config/apt-notifierrc
+        if [ "$?" -ne 0 ]; then
+          echo "UpgradeAutoClose=false">>~/.config/apt-notifierrc
+        fi
+        UpgradeAutoClose=$(grep ^UpgradeAutoClose ~/.config/apt-notifierrc | cut -f2 -d=)
+      
+        TMP=$(mktemp -d /tmp/apt-notifier.XXXXXX)
+        echo "apt-get $UpgradeType" > "$TMP"/upgrades
+        apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$TMP"/upgrades
+        #remove Synaptic pinned packages
+        for i in $(grep ^Package: /var/lib/synaptic/preferences 2>/dev/null | awk '{print $2}' 2>/dev/null); do sed -i '/'$i'\(.*=>.*\)/d' "$TMP"/upgrades 2>/dev/null; done
+        #correct upgrades count
+        PossiblyWrongNumberOfUpgrades=$(grep ^[0-9]*' upgraded,' -o "$TMP"/upgrades | awk '{print $1}')
+        CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
+        sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades
         yad \
-        --width=640 --height=480 \
-        --text-info --title=$UpgradeType --filename="$TMP"/upgrades \
-        --button exit:1 --button $UpgradeType:0 --buttons-layout=spread
-        DoUpgrade
-    else [ -x /usr/bin/xmessage ]
-        xmessage -buttons exit:1,$UpgradeType:0 -center -file "$TMP"/upgrades
-        DoUpgrade
-    fi
+        --window-icon=/usr/share/icons/mnotify-some.png \
+        --skip-taskbar \
+        --width=640 \
+        --height=480 \
+        --center \
+        --title "apt-notifier View and Upgrade, previewing: apt-get "$UpgradeType \
+        --form \
+          --field :TXT "$(cat "$TMP"/upgrades)" \
+          --field="use apt-get's --yes option for $UpgradeType":CHK $UpgradeAssumeYes \
+          --field="automatically close terminal window when apt-get $UpgradeType complete":CHK $UpgradeAutoClose \
+        --button exit:2 \
+        --button $UpgradeType:0 \
+        --button "switch to 'apt-get "$OtherUpgradeType"'":4 \
+        --buttons-layout=spread \
+        2>/dev/null \
+        > "$TMP"/results 
+
+        echo $?>>"$TMP"/results
+
+        # if the View and Upgrade yad window was closed by one of it's 3 buttons, 
+        # then update the UpgradeAssumeYes & UpgradeAutoClose flags in the 
+        # ~/.config/apt-notifierrc file to match the checkboxes
+        if [ $(tail -n1 "$TMP"/results) -eq 0 ]||\
+           [ $(tail -n1 "$TMP"/results) -eq 2 ]||\
+           [ $(tail -n1 "$TMP"/results) -eq 4 ];
+          then
+            if [ "$(head -n1 "$TMP"/results | rev | awk -F \| '{ print $3}' | rev)" = "TRUE" ];
+              then
+                sed -i 's/UpgradeAssumeYes=false/UpgradeAssumeYes=true/' ~/.config/apt-notifierrc
+              else
+                sed -i 's/UpgradeAssumeYes=true/UpgradeAssumeYes=false/' ~/.config/apt-notifierrc
+            fi
+            if [ "$(head -n1 "$TMP"/results | rev | awk -F \| '{ print $2}' | rev)" = "TRUE" ];
+              then
+                sed -i 's/UpgradeAutoClose=false/UpgradeAutoClose=true/' ~/.config/apt-notifierrc
+              else
+                sed -i 's/UpgradeAutoClose=true/UpgradeAutoClose=false/' ~/.config/apt-notifierrc
+            fi
+          else
+            :
+        fi
+
+        # refresh UpgradeAssumeYes & UpgradeAutoClose 
+        UpgradeAssumeYes=$(grep ^UpgradeAssumeYes ~/.config/apt-notifierrc | cut -f2 -d=)
+        UpgradeAutoClose=$(grep ^UpgradeAutoClose ~/.config/apt-notifierrc | cut -f2 -d=)
+
+        # build a upgrade script to do the apt-get upgrade (or dist-upgrade)
+        echo "#!/bin/bash"> "$TMP"/upgradeScript
+        echo "echo 'apt-get '"$UpgradeType>> "$TMP"/upgradeScript
+        echo 'SynapticPins=$(mktemp /etc/apt/preferences.d/synaptic-XXXXXX-pins)'>> "$TMP"/upgradeScript
+        echo 'ln -sf /var/lib/synaptic/preferences "$SynapticPins" 2>/dev/null'>> "$TMP"/upgradeScript
+        if [ "$UpgradeAssumeYes" = "true" ];
+          then
+            echo "apt-get -q --assume-yes "$UpgradeType>> "$TMP"/upgradeScript
+          else
+            echo "apt-get -q "$UpgradeType>> "$TMP"/upgradeScript
+        fi 
+        echo "echo">> "$TMP"/upgradeScript
+        echo 'rm "$SynapticPins"'>> "$TMP"/upgradeScript
+        if [ "$UpgradeAutoClose" = "true" ];
+          then
+            echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
+            echo "echo">> "$TMP"/upgradeScript
+            echo "sleep 1">> "$TMP"/upgradeScript
+            echo "exit 0">> "$TMP"/upgradeScript
+          else
+            echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
+            echo "echo">> "$TMP"/upgradeScript
+            echo "echo -n 'this terminal window can now be closed '">> "$TMP"/upgradeScript
+            echo "read -sn 1 -p '(press any key to close)' -t 999999999">> "$TMP"/upgradeScript
+            echo "echo">> "$TMP"/upgradeScript
+            echo "exit 0">> "$TMP"/upgradeScript
+        fi
+
+        DoUpgrade $(tail -n1 "$TMP"/results)
+    
+        rm -rf "$TMP"
+
+      done
+
     sleep 5
     PID=`pidof apt-get | cut -f 1 -d " "`
     if [ $PID ]; then
@@ -157,7 +249,6 @@ def showupdates():
             sleep 5
         done
     fi
-    rm -rf "$TMP"
     '''
     script_file = tempfile.NamedTemporaryFile('wt')
     script_file.write(script)
