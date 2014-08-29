@@ -65,7 +65,7 @@ def check_updates():
             AptIcon.show()
             AptIcon.setToolTip("1 new update available")
             #AptIcon.setToolTip("1 new update available\n"+text2)
-            add_rightclick_upgrade_action()
+            add_rightclick_actions()
             # Shows the pop up message only if not displayed before 
             if message_status == "not displayed":
                 def show_message():
@@ -77,7 +77,7 @@ def check_updates():
             AptIcon.show()
             AptIcon.setToolTip(text)
             #AptIcon.setToolTip(text+"\n"+text2)
-            add_rightclick_upgrade_action()
+            add_rightclick_actions()
             # Shows the pop up message only if not displayed before 
             if message_status == "not displayed":
                 def show_message():
@@ -470,7 +470,7 @@ def set_noicon():
     AptIcon.hide()
     icon_config = "donot show"
 
-def add_rightclick_upgrade_action():
+def add_rightclick_actions():
     ActionsMenu.clear()
     """Test ~/.config/apt-notifierrc for LeftClickViewAndUpgrade"""
     command_string = "cat " + rc_file_name + " | grep -q LeftClick=ViewAndUpgrade"
