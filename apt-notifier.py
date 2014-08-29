@@ -89,7 +89,7 @@ def start_synaptic():
     run = subprocess.Popen(['/usr/bin/su-to-root -X -c synaptic'],shell=True).wait()
     check_updates()
 
-def showupdates():
+def viewandupgrade():
     initialize_aptnotifier_prefs()
     script = '''#!/bin/bash
     DoUpgrade(){
@@ -443,7 +443,7 @@ def left_click():
         command_string = "cat " + rc_file_name + " | grep -q LeftClick=ViewAndUpgrade"
         exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
         if exit_state == 0:
-            showupdates()
+            viewandupgrade()
         else:
             start_synaptic()
 
@@ -480,7 +480,7 @@ def add_rightclick_actions():
         AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), start_synaptic)
     else:
         process_updates_action = ActionsMenu.addAction("View and Upgrade")
-        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), showupdates)
+        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), viewandupgrade)
     add_apt_notifier_help_action()
     add_synaptic_help_action()
     add_quit_action()
