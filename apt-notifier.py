@@ -350,7 +350,7 @@ def aptnotifier_prefs():
     TMP=$(mktemp -d /tmp/apt_notifier_preferences_dialog.XXXXXX)
     touch "$TMP"/output
     cat << EOF > "$TMP"/DIALOG
-    <window title="MX Apt Notifier preferences" icon-name="mnotify-some.png">
+    <window title="MX Apt Notifier preferences" icon-name="mnotify-some">
       <vbox>
         <frame  upgrade behaviour   (also affects notification count)   >
           <radiobutton active="@UpgradeBehaviourAptGetUpgrade@">
