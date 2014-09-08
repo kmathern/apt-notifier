@@ -1,3 +1,15 @@
+apt-notifier (1.1.2mcr120+0) mepis; urgency=low
+
+  * View and Upgrade, added option to open with left click
+  * View and Upgrade, moved 'Cancel' button to the right
+  * View and Upgrade, new 'remove Synaptic pinned ...' method
+  * View and Upgrade, new 'correct upgrades count' method   
+  * added Apt Notifier Preferences dialog
+  * debian/control add gtkdialog dependency
+  * debian/links file added, creates link for mnotify-some.png
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Mon, 08 Sep 2014 12:04:52 -0400
+
 apt-notifier (1.1.01mcr120+1) mepis; urgency=low
 
   * Some changes to the main script make it dependent on yad, drop alternates to
