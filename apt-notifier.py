@@ -498,7 +498,7 @@ def add_hide_action():
 
 def add_quit_action():
     ActionsMenu.addSeparator()
-    quit_action = ActionsMenu.addAction(QuitIcon,"Quit Apt-Notification")
+    quit_action = ActionsMenu.addAction(QuitIcon,"Quit Apt-Notifier")
     AptNotify.connect(quit_action, QtCore.SIGNAL("triggered()"), AptNotify.exit)
 
 def add_apt_notifier_help_action():
