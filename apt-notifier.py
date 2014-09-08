@@ -178,7 +178,7 @@ def viewandupgrade():
           --field :TXT "$(cat "$TMP"/upgrades)" \
           --field="use apt-get's --yes option for $UpgradeType":CHK $UpgradeAssumeYes \
           --field="automatically close terminal window when apt-get $UpgradeType complete":CHK $UpgradeAutoClose \
-        --button exit:2 \
+        --button gtk-cancel:2 \
         --button $UpgradeType:0 \
         --button "switch to 'apt-get "$OtherUpgradeType"'":4 \
         --buttons-layout=spread \
