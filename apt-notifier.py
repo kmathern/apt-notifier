@@ -173,10 +173,16 @@ def viewandupgrade():
             sed -i '/'"$j"'/d' "$TMP"/upgrades 2>/dev/null;\
           done
 
-        #correct upgrades count
-        PossiblyWrongNumberOfUpgrades=$(grep ^[0-9]*' upgraded,' -o "$TMP"/upgrades | awk '{print $1}')
+        #correct upgrades count -- original method
+        #PossiblyWrongNumberOfUpgrades=$(grep ^[0-9]*' upgraded,' -o "$TMP"/upgrades | awk '{print $1}')
+        #CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
+        #sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades
+        
+        #correct upgrades count -- revision 1
+        PossiblyWrongNumberOfUpgrades=$(tac "$TMP"/upgrades|sed '1,2d'|head -n1|awk '{print $1,$2,$3}'|grep -o -e^[1-9][0-9]* -e.[1-9][0-9]*|sed 's/^[[:space:]]//')
         CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
-        sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades
+        sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades        
+
         yad \
         --window-icon=/usr/share/icons/mnotify-some.png \
         --width=640 \
