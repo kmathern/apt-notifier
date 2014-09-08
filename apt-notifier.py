@@ -226,7 +226,7 @@ def viewandupgrade():
             echo "apt-get -q "$UpgradeType>> "$TMP"/upgradeScript
         fi 
         echo "echo">> "$TMP"/upgradeScript
-        echo 'rm "$SynapticPins"'>> "$TMP"/upgradeScript
+        echo 'rm -f "$SynapticPins"'>> "$TMP"/upgradeScript
         if [ "$UpgradeAutoClose" = "true" ];
           then
             echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
