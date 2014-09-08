@@ -391,7 +391,7 @@ def aptnotifier_prefs():
           </checkbox>
         </frame>
       <hbox>
-        <button> <label> Apply </label> <action function="exit">Apply</action> </button>
+        <button use-stock="true" label="gtk-apply"> </button>
         <button cancel> </button>
       </hbox>
       </vbox>
@@ -409,7 +409,7 @@ EOF
 
     gtkdialog --file="$TMP"/DIALOG >> "$TMP"/output
 
-    grep -q EXIT=.*Apply.* "$TMP"/output
+    grep -q EXIT=.*OK.* "$TMP"/output
 
     if [ "$?" -eq 0 ];
       then
