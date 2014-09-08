@@ -162,10 +162,10 @@ def viewandupgrade():
         TMP=$(mktemp -d /tmp/apt-notifier.XXXXXX)
         echo "apt-get $UpgradeType" > "$TMP"/upgrades
         apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$TMP"/upgrades
-         
+        
         #remove Synaptic pinned packages from "$TMP"/upgrades, so they don't get displayed in the 'View and Upgrade' window -- original method
         #for i in $(grep ^Package: /var/lib/synaptic/preferences 2>/dev/null | awk '{print $2}' 2>/dev/null); do sed -i '/'$i' (.*=>.*)/d' "$TMP"/upgrades 2>/dev/null; done
-
+        
         #remove Synaptic pinned packages from "$TMP"/upgrades, so they don't get displayed in the 'View and Upgrade' window -- new method
         for i in $(grep -A1 Package: /var/lib/synaptic/preferences | sed 's/Package: //; s/Pin: version /@/; /--/d' | awk 'ORS=" "' | sed 's/ @/_/g');\
           do \
@@ -179,9 +179,14 @@ def viewandupgrade():
         #sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades
         
         #correct upgrades count -- revision 1
-        PossiblyWrongNumberOfUpgrades=$(tac "$TMP"/upgrades|sed '1,2d'|head -n1|awk '{print $1,$2,$3}'|grep -o -e^[1-9][0-9]* -e.[1-9][0-9]*|sed 's/^[[:space:]]//')
-        CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
-        sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades        
+        #PossiblyWrongNumberOfUpgrades=$(tac "$TMP"/upgrades|sed '1,2d'|head -n1|awk '{print $1,$2,$3}'|grep -o -e^[1-9][0-9]* -e.[1-9][0-9]*|sed 's/^[[:space:]]//')
+        #CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
+        #sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades        
+
+        #correct upgrades count -- revision 2 (attempts to do a better job of correcting the upgrades count for non-english users)
+        CorrectedNumberOfUpgrades=$(grep '=>' $TMP/upgrades | wc -l) 
+        tac "$TMP"/upgrades | sed '3s/[1-9][0-9]*/'$CorrectedNumberOfUpgrades'/' | tac >> "$TMP"/upgrades
+        sed -i "1,$(echo -n $(echo $(cat "$TMP"/upgrades | wc -l)/2 | bc))d" "$TMP"/upgrades
 
         yad \
         --window-icon=/usr/share/icons/mnotify-some.png \
