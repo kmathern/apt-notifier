@@ -411,7 +411,7 @@ def aptnotifier_prefs():
           </checkbox>
         </frame>
       <hbox>
-        <button use-stock="true" label="gtk-apply"> </button>
+        <button ok> </button>
         <button cancel> </button>
       </hbox>
       </vbox>
