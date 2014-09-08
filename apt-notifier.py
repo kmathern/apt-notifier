@@ -162,8 +162,17 @@ def viewandupgrade():
         TMP=$(mktemp -d /tmp/apt-notifier.XXXXXX)
         echo "apt-get $UpgradeType" > "$TMP"/upgrades
         apt-get -o Debug::NoLocking=true --trivial-only -V $UpgradeType 2>/dev/null >> "$TMP"/upgrades
-        #remove Synaptic pinned packages
-        for i in $(grep ^Package: /var/lib/synaptic/preferences 2>/dev/null | awk '{print $2}' 2>/dev/null); do sed -i '/'$i'\(.*=>.*\)/d' "$TMP"/upgrades 2>/dev/null; done
+         
+        #remove Synaptic pinned packages from "$TMP"/upgrades, so they don't get displayed in the 'View and Upgrade' window -- original method
+        #for i in $(grep ^Package: /var/lib/synaptic/preferences 2>/dev/null | awk '{print $2}' 2>/dev/null); do sed -i '/'$i' (.*=>.*)/d' "$TMP"/upgrades 2>/dev/null; done
+
+        #remove Synaptic pinned packages from "$TMP"/upgrades, so they don't get displayed in the 'View and Upgrade' window -- new method
+        for i in $(grep -A1 Package: /var/lib/synaptic/preferences | sed 's/Package: //; s/Pin: version /@/; /--/d' | awk 'ORS=" "' | sed 's/ @/_/g');\
+          do \
+            j="$(echo $i | sed 's/_/ /' | awk '{print $1" ("$2" =>"}')";\
+            sed -i '/'"$j"'/d' "$TMP"/upgrades 2>/dev/null;\
+          done
+
         #correct upgrades count
         PossiblyWrongNumberOfUpgrades=$(grep ^[0-9]*' upgraded,' -o "$TMP"/upgrades | awk '{print $1}')
         CorrectedNumberOfUpgrades=$(sed -n '/upgraded:$/,$p' "$TMP"/upgrades | grep ^'  ' | wc -l)
