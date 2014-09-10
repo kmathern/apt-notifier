@@ -1,3 +1,9 @@
+apt-notifier (1.1.2mcr120+1) mepis; urgency=low
+
+  * Build for MEPIS 12 community repository.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Wed, 10 Sep 2014 13:24:24 -0700
+
 apt-notifier (1.1.2mcr120+0) mepis; urgency=low
 
   * View and Upgrade, added option to open with left click
