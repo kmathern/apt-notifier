@@ -134,7 +134,7 @@ def viewandupgrade():
         
         4)
         BP="0"
-        sed -i 's/UpgradeType='$UpgradeType'/UpgradeType='$OtherUpgradeType'/' ~/.config/apt-notifierrc
+        sed -i 's/UpgradeType='$UpgradeType'/UpgradeType='$OtherUpgradeType'/' .config/apt-notifierrc
         ;;
         
         *)
