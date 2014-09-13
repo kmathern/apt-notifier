@@ -184,7 +184,8 @@ def viewandupgrade():
         #sed -i 's/^'$PossiblyWrongNumberOfUpgrades' upgraded, /'$CorrectedNumberOfUpgrades' upgraded, /' "$TMP"/upgrades        
 
         #correct upgrades count -- revision 2 (attempts to do a better job of correcting the upgrades count for non-english users)
-        CorrectedNumberOfUpgrades=$(grep '=>' $TMP/upgrades | wc -l) 
+        #CorrectedNumberOfUpgrades=$(grep '=>' $TMP/upgrades | wc -l)
+        CorrectedNumberOfUpgrades=$(tac "$TMP"/upgrades | grep -e:$ -e：$ -m1 -B99999 | grep '=>'| wc -l) 
         tac "$TMP"/upgrades | sed '3s/[1-9][0-9]*/'$CorrectedNumberOfUpgrades'/' | tac >> "$TMP"/upgrades
         sed -i "1,$(echo -n $(echo $(cat "$TMP"/upgrades | wc -l)/2 | bc))d" "$TMP"/upgrades
 
