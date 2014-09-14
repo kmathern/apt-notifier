@@ -1,3 +1,10 @@
+apt-notifier (1.1.2mcr120+3) mepis; urgency=low
+
+  * debian/control: add minimum dependency for yad of (>= 0.26)
+  * Some fixes in apt-notifier.py.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Sat, 13 Sep 2014 20:20:48 -0700
+
 apt-notifier (1.1.2mcr120+2) mepis; urgency=low
 
   * Fix M11 bug, change line 137 of apt-notifier.py to refer
