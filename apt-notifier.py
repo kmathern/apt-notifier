@@ -488,6 +488,8 @@ def set_noicon():
         file = open(rc_file_name, 'a')
         file.write ('[DontShowIcon] #Remove this entry if you want the apt-notify icon to show even when there are no upgrades available\n')
         file.close()
+        command_string = "/usr/bin/apt-notifier"
+        subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
     AptIcon.hide()
     icon_config = "donot show"
 
