@@ -31,3 +31,4 @@ sed -i '/^[[:space:]]*$/d' ~/.config/apt-notifierrc
 python /usr/bin/apt-notifier.py& disown -h
 
 exit 0
+
