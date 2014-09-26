@@ -1,3 +1,9 @@
+apt-notifier (1.1.2mcr120+4) mepis; urgency=low
+
+  * Fix for unexpected hide-unhide behavior.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Thu, 25 Sep 2014 19:28:32 -0700
+
 apt-notifier (1.1.2mcr120+3) mepis; urgency=low
 
   * debian/control: add minimum dependency for yad of (>= 0.26)
