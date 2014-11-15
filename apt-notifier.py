@@ -254,11 +254,6 @@ def viewandupgrade():
              done2="'this terminal window can now be closed '" 
              done3="'(press any key to close)'"
 
-             done0=""
-             done1=" s'est terminé (ou a été annulé)"'"' 
-             done2="'vous pouvez maintenant fermer cette fenêtre de terminal '" 
-             done3='"(appuyez sur n'"'"'importe quelle touche pour fermer)"'
-
     case $(locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_) in
 
       ca)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
