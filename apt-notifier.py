@@ -338,16 +338,16 @@ def viewandupgrade():
              done2="'this terminal window can now be closed '" 
              done3="'(press any key to close)'" ;;
 
-      ja)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
-             use_apt_get_dash_dash_yes="use apt-get --yes option for "
-             auto_close_term_window1="automatically close terminal window when apt-get "
-             auto_close_term_window2=" complete"
-             switch_to1="switch to 'apt-get "
-             switch_to2=""
+      ja)    window_title="MX Apt Notifier--表示・更新 これを試す: apt-get "
+             use_apt_get_dash_dash_yes="で apt-get's --yes オプションを使用する "
+             auto_close_term_window1="apt-get "
+             auto_close_term_window2=" が完了した後自動的に端末ウインドウを閉じる"
+             switch_to1="'apt-get "
+             switch_to2=" へ切り替える"
              done0="" 
-             done1=' complete (or was canceled)"' 
-             done2="'this terminal window can now be closed '" 
-             done3="'(press any key to close)'" ;;
+             done1=' 完了 (またはキャンセル)時に"' 
+             done2="'この端末ウインドウを閉じる '" 
+             done3="'(何かキーを押して閉じる)'" ;;
 
       nl)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
              use_apt_get_dash_dash_yes="use apt-get --yes option for "
@@ -715,14 +715,13 @@ def aptnotifier_prefs():
              use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
              auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
 
-         ja) window_title="MX Apt Notifier preferences"
-             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
-             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
-             left_click_Synaptic="opens Synaptic "
-             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
-             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
-             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
-
+         ja) window_title="MX Apt Notifier 設定"
+             frame_upgrade_behaviour="  更新の動作 (通知数に影響があります)   "
+             frame_left_click_behaviour="  左クリックの動作 (更新が可能な場合)   "
+             left_click_Synaptic="Synaptic を開く"
+             left_click_ViewandUpgrade="MX Apt Notifier '表示・更新' ウインドウを開く"
+             use_apt_get_dash_dash_yes="upgrade/dist-upgrade に apt-get's --yes オプションを使用する"
+             auto_close_term_window_when_complete="apt-get upgrade/dist-upgrade が完了した後自動的に端末ウインドウを閉じる" ;;
 
          nl) window_title="MX Apt Notifier preferences"
              frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
