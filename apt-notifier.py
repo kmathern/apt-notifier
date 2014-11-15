@@ -290,13 +290,13 @@ def viewandupgrade():
              done3="'(press any key to close)'" ;;
 
       es)    window_title="MX Apt Notifier--Ver y Actualizar, vista previa: apt-get "
-             use_apt_get_dash_dash_yes="usar la opci\xf3n --yes de apt-get para "
+             use_apt_get_dash_dash_yes="usar la opción --yes de apt-get para "
              auto_close_term_window1="Cerrar automáticamente la terminal cuando se completa apt-get "
              auto_close_term_window2=""
              switch_to1="cambiar a 'apt-get "
              switch_to2=""
-             done0="se complet\xf3 "
-             done1=' (o se cancel\xf3)"' 
+             done0="se completó "
+             done1=' (o se canceló)"' 
              done2="'esta ventana de terminal ya puede cerrarse '" 
              done3="'(oprima cualquier tecla para cerrarla)'"  ;;
 
@@ -665,11 +665,11 @@ def aptnotifier_prefs():
              auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
 
          es) window_title="MX preferencias de Apt Notifier"
-             frame_upgrade_behaviour="  comportamiento de actualizaci\xf3n (también afecta la cuenta de notificaciones)   "
+             frame_upgrade_behaviour="  comportamiento de actualización (también afecta la cuenta de notificaciones)   "
              frame_left_click_behaviour="  comportamiento del clic izquierdo (cuando hay actualizaciones disponibles)   "
              left_click_Synaptic="abre Synaptic "
              left_click_ViewandUpgrade='abre la ventana "Ver y Actualizar" de MX Apt Notifier'
-             use_apt_get_dash_dash_yes="usar la opci\xf3n --yes de apt-get's para upgrade/dist-upgrade"
+             use_apt_get_dash_dash_yes="usar la opción --yes de apt-get's para upgrade/dist-upgrade"
              auto_close_term_window_when_complete="Cerrar automáticamente la terminal cuando se completa apt-get upgrade/dist-upgrade" ;;
 
          fr) window_title="Préferences pour MX Apt Notifier"
