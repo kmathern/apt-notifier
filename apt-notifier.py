@@ -461,7 +461,7 @@ def viewandupgrade():
           --field="$use_apt_get_dash_dash_yes$UpgradeType":CHK $UpgradeAssumeYes \
           --field="$auto_close_term_window1$UpgradeType$auto_close_term_window2":CHK $UpgradeAutoClose \
         --button "$switch_to1$OtherUpgradeType'$switch_to2":4 \
-        --button gtk-ok!!apt-get\ $UpgradeType:0 \
+        --button gtk-ok\!\!apt-get\ $UpgradeType:0 \
         --button gtk-cancel:2 \
         --buttons-layout=spread \
         2>/dev/null \
