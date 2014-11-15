@@ -12,6 +12,162 @@ from PyQt4 import QtCore
 rc_file_name = environ.get('HOME') + '/.config/apt-notifierrc'
 message_status = "not displayed"
 
+script = '''#!/bin/sh
+locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_
+'''
+script_file = tempfile.NamedTemporaryFile('wt')
+script_file.write(script)
+script_file.flush()
+run = subprocess.Popen(["echo -n `sh %s`" % script_file.name],shell=True, stdout=subprocess.PIPE)
+locale = run.stdout.read(128)
+
+tooltip_0_updates_available = "0 updates available"
+tooltip_1_new_update_available = "1 new update available"
+tooltip_multiple_new_updates_available = " new updates available"
+popup_title = "Updates"
+popup_msg_1_new_update_available = "You have 1 new update available"
+popup_msg_multiple_new_updates_available_begin = "You have "
+popup_msg_multiple_new_updates_available_end = " new updates available"
+Upgrade_using_Synaptic = "Upgrade using Synaptic"
+View_and_Upgrade = "View and Upgrade"
+Hide_until_updates_available = "Hide until updates available"
+Quit_Apt_Notifier = "Quit Apt-Notifier"
+Apt_Notifier_Help = "Apt-Notifier Help"
+Synaptic_Help = "Synaptic Help"
+Apt_Notifier_Preferences = "Apt Notifier Preferences"
+
+if locale == "ca":
+    tooltip_0_updates_available = "0 updates available"
+    tooltip_1_new_update_available = "1 new update available"
+    tooltip_multiple_new_updates_available = " new updates available"
+    popup_title = "Updates"
+    popup_msg_1_new_update_available = "You have 1 new update available"
+    popup_msg_multiple_new_updates_available_begin = "You have "
+    popup_msg_multiple_new_updates_available_end = " new updates available"
+    Upgrade_using_Synaptic = "Upgrade using Synaptic"
+    View_and_Upgrade = "View and Upgrade"
+    Hide_until_updates_available = "Hide until updates available"
+    Quit_Apt_Notifier = "Quit Apt-Notifier"
+    Apt_Notifier_Help = "Apt-Notifier Help"
+    Synaptic_Help = "Synaptic Help"
+    Apt_Notifier_Preferences = "Apt Notifier Preferences"
+
+elif locale == "de":
+    tooltip_0_updates_available = "0 Updates verf\xfcgbar"
+    tooltip_1_new_update_available = "1 neues Update verf\xfcgbar"
+    tooltip_multiple_new_updates_available = " neue Updates verf\xfcgbar"
+    popup_title = "Updates"
+    popup_msg_1_new_update_available = "Sie haben ein neues Update verf\xfcgbar"
+    popup_msg_multiple_new_updates_available_begin = "Sie haben "
+    popup_msg_multiple_new_updates_available_end = " neue Updates verf\xfcgbar"
+    Upgrade_using_Synaptic = "Durch Synaptic aufr\xfcsten"
+    View_and_Upgrade = "Anschauen and aufr\xfcsten"
+    Hide_until_updates_available = "Verstercken bis Updates verf\xfcgbar"
+    Quit_Apt_Notifier = "Apt-Notifier abbrechen "
+    Apt_Notifier_Help = "Apt-Notifier Hilfe"
+    Synaptic_Help = "Synaptic Hilfe"
+    Apt_Notifier_Preferences = "Apt Notifier Einstellungen"
+
+elif locale == "el":
+    tooltip_0_updates_available = "0 updates available"
+    tooltip_1_new_update_available = "1 new update available"
+    tooltip_multiple_new_updates_available = " neue updates available"
+    popup_title = "Updates"
+    popup_msg_1_new_update_available = "You have 1 new update available"
+    popup_msg_multiple_new_updates_available_begin = "You have "
+    popup_msg_multiple_new_updates_available_end = " new updates available"
+    Upgrade_using_Synaptic = "Upgrade using Synaptic"
+    View_and_Upgrade = "View and Upgrade"
+    Hide_until_updates_available = "Hide until updates available"
+    Quit_Apt_Notifier = "Quit Apt-Notifier"
+    Apt_Notifier_Help = "Apt-Notifier Help"
+    Synaptic_Help = "Synaptic Help"
+    Apt_Notifier_Preferences = "Apt Notifier Preferences"
+
+elif locale == "es":
+    tooltip_0_updates_available = "0 actualizaciones disponibles"
+    tooltip_1_new_update_available = "1 nueva actualizaci\xf3n disponible"
+    tooltip_multiple_new_updates_available = " nuevas actualizaciones disponibles"
+    popup_title = "Updates"
+    popup_msg_1_new_update_available = "Tiene 1 nueva actualizaci\xf3n disponible"
+    popup_msg_multiple_new_updates_available_begin = "Tiene "
+    popup_msg_multiple_new_updates_available_end = " nuevas actualizaciones disponibles"
+    Upgrade_using_Synaptic = "Actualizar usando Synaptic"
+    View_and_Upgrade = "Ver y Actualizar"
+    Hide_until_updates_available = "Ocultar hasta que haya actualizaciones"
+    Quit_Apt_Notifier = "Salir de Apt-Notifier"
+    Apt_Notifier_Help = "Ayuda de Apt-Notifier"
+    Synaptic_Help = "Ayuda de Synaptic"
+    Apt_Notifier_Preferences = "Preferencias de Apt Notifier"
+
+elif locale == "fr":
+    tooltip_0_updates_available = "0 mises \xe0 jour disponibles"
+    tooltip_1_new_update_available = "1 nouvelle mise \xe0 jour disponible"
+    tooltip_multiple_new_updates_available = " nouvelles mises \xe0 jour disponibles"
+    popup_title = "Mises \xe0 jour"
+    popup_msg_1_new_update_available = "Vous avez une nouvelle mise \xe0 jour disponible"
+    popup_msg_multiple_new_updates_available_begin = "Vous avez "
+    popup_msg_multiple_new_updates_available_end = " nouvelles mises \xe0 jour disponibles"
+    Upgrade_using_Synaptic = "Mettre \xe0 niveau avec Synaptic"
+    View_and_Upgrade = "Voir et mettre \xe0 niveau"
+    Hide_until_updates_available = "Cacher jusqu'\xe0 ce que des mises \xe0 niveau soient disponibles"
+    Quit_Apt_Notifier = "Annuler Apt-Notifier"
+    Apt_Notifier_Help = "Aide sur Apt-notifier"
+    Synaptic_Help = "Aide sur Synaptic"
+    Apt_Notifier_Preferences = "Pr\xe9ferences pour Apt Notifier"
+
+elif locale == "ja":
+    tooltip_0_updates_available = "0 updates available"
+    tooltip_1_new_update_available = "1 new update available"
+    tooltip_multiple_new_updates_available = " new updates available"
+    popup_title = "Updates"
+    popup_msg_1_new_update_available = "You have 1 new update available"
+    popup_msg_multiple_new_updates_available_begin = "You have "
+    popup_msg_multiple_new_updates_available_end = " new updates available"
+    Upgrade_using_Synaptic = "Upgrade using Synaptic"
+    View_and_Upgrade = "View and Upgrade"
+    Hide_until_updates_available = "Hide until updates available"
+    Quit_Apt_Notifier = "Quit Apt-Notifier"
+    Apt_Notifier_Help = "Apt-Notifier Help"
+    Synaptic_Help = "Synaptic Help"
+    Apt_Notifier_Preferences = "Apt Notifier Preferences"
+
+elif locale == "nl":
+    tooltip_0_updates_available = "0 updates available"
+    tooltip_1_new_update_available = "1 new update available"
+    tooltip_multiple_new_updates_available = " new updates available"
+    popup_title = "Updates"
+    popup_msg_1_new_update_available = "You have 1 new update available"
+    popup_msg_multiple_new_updates_available_begin = "You have "
+    popup_msg_multiple_new_updates_available_end = " new updates available"
+    Upgrade_using_Synaptic = "Upgrade using Synaptic"
+    View_and_Upgrade = "View and Upgrade"
+    Hide_until_updates_available = "Hide until updates available"
+    Quit_Apt_Notifier = "Quit Apt-Notifier"
+    Apt_Notifier_Help = "Apt-Notifier Help"
+    Synaptic_Help = "Synaptic Help"
+    Apt_Notifier_Preferences = "Apt Notifier Preferences"
+
+elif locale == "sv":
+    tooltip_0_updates_available = "0 uppdateringar tillg\xe4ngliga"
+    tooltip_1_new_update_available = "1 ny updatering tillg\xe4nglig"
+    tooltip_multiple_new_updates_available = " nya uppdateringar tillg\xe4ngliga"
+    popup_title = "Updateringar"
+    popup_msg_1_new_update_available = "Du har 1 ny uppdatering tillg\xe4nglig"
+    popup_msg_multiple_new_updates_available_begin = "Du har "
+    popup_msg_multiple_new_updates_available_end = " nya uppdatering tillg\xe4nglig"
+    Upgrade_using_Synaptic = "Uppgradera med Synaptic"
+    View_and_Upgrade = "Granska och Uppgradera"
+    Hide_until_updates_available = "G\xf6m tills uppdateringar \xe4r tillg\xe4ngliga"
+    Quit_Apt_Notifier = "Avsluta Apt-Notifier"
+    Apt_Notifier_Help = "Apt-Notifier Hj\xe4lp"
+    Synaptic_Help = "Synaptic Hj\xe4lp"
+    Apt_Notifier_Preferences = "Apt Notifier Inst\xe4llningar"
+
+else:
+    pass
+
+
 # Check for updates, using subprocess.Popen
 def check_updates():
     global message_status
@@ -42,46 +198,40 @@ def check_updates():
     script_file = tempfile.NamedTemporaryFile('wt')
     script_file.write(script)
     script_file.flush()
-    run = subprocess.Popen(["echo -n `sh %s` new updates available" % script_file.name],shell=True, stdout=subprocess.PIPE)
+    run = subprocess.Popen(["echo -n `sh %s`" % script_file.name],shell=True, stdout=subprocess.PIPE)
     # Read the output into a text string
     text = run.stdout.read(128)
-    # run = subprocess.Popen(["echo -n 'using upgrade method: '\\\x60apt-get' '$(grep ^UpgradeType ~/.config/apt-notifierrc | cut -f2 -d=)\\\x60"],shell=True, stdout=subprocess.PIPE)
-    # Read the output into a text string
-    # text2 = run.stdout.read(128)
 
     # Alter both Icon and Tooltip, depending on updates available or not 
-    if text.startswith( "0" ):
+    if text == "0":
         message_status = "not displayed"  # Resets flag once there are no more updates
         add_hide_action()
         if icon_config != "show":
             AptIcon.hide()
         else:
             AptIcon.setIcon(NoUpdatesIcon)
-            AptIcon.setToolTip("0 updates available")
-            #AptIcon.setToolTip("0 updates available\n"+text2)
+            AptIcon.setToolTip(tooltip_0_updates_available)
     else:
-        if text.startswith( "1 " ):
+        if text == "1":
             AptIcon.setIcon(NewUpdatesIcon)
             AptIcon.show()
-            AptIcon.setToolTip("1 new update available")
-            #AptIcon.setToolTip("1 new update available\n"+text2)
+            AptIcon.setToolTip(tooltip_1_new_update_available)
             add_rightclick_actions()
             # Shows the pop up message only if not displayed before 
             if message_status == "not displayed":
                 def show_message():
-                    AptIcon.showMessage("Updates", "You have 1 new update available")
+                    AptIcon.showMessage(popup_title, popup_msg_1_new_update_available)
                 Timer.singleShot(1000, show_message)
                 message_status = "displayed"
         else:
             AptIcon.setIcon(NewUpdatesIcon)
             AptIcon.show()
-            AptIcon.setToolTip(text)
-            #AptIcon.setToolTip(text+"\n"+text2)
+            AptIcon.setToolTip(text + tooltip_multiple_new_updates_available)
             add_rightclick_actions()
             # Shows the pop up message only if not displayed before 
             if message_status == "not displayed":
                 def show_message():
-                    AptIcon.showMessage("Updates", "You have " + text)
+                    AptIcon.showMessage(popup_title, popup_msg_multiple_new_updates_available_begin + text + popup_msg_multiple_new_updates_available_end)
                 Timer.singleShot(1000, show_message)
                 message_status = "displayed"
    
@@ -92,10 +242,126 @@ def start_synaptic():
 def viewandupgrade():
     initialize_aptnotifier_prefs()
     script = '''#!/bin/bash
+
+             window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for "
+             auto_close_term_window1="automatically close terminal window when apt-get "
+             auto_close_term_window2=" complete"
+             switch_to1="switch to 'apt-get "
+             switch_to2=""
+             done0="" 
+             done1=' complete (or was canceled)"' 
+             done2="'this terminal window can now be closed '" 
+             done3="'(press any key to close)'"
+
+             done0=""
+             done1=" s'est terminé (ou a été annulé)"'"' 
+             done2="'vous pouvez maintenant fermer cette fenêtre de terminal '" 
+             done3='"(appuyez sur n'"'"'importe quelle touche pour fermer)"'
+
+    case $(locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_) in
+
+      ca)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for "
+             auto_close_term_window1="automatically close terminal window when apt-get "
+             auto_close_term_window2=" complete"
+             switch_to1="switch to 'apt-get "
+             switch_to2=""
+             done0="" 
+             done1=' complete (or was canceled)"' 
+             done2="'this terminal window can now be closed '" 
+             done3="'(press any key to close)'" ;;
+
+      de)    window_title="MX Apt Notifier--Anschauen and aufrüsten, vorprüfend: apt-get "
+             use_apt_get_dash_dash_yes="Option --yes von apt-get's benutzen bei "
+             auto_close_term_window1="Shellfenster automatiisch schliessen nach Ende von apt-get "
+             auto_close_term_window2=""
+             switch_to1="Zu 'apt-get "
+             switch_to2=" wechseln"
+             done0=""
+             done1=' fertig (oder beendet)"'
+             done2="'Dieses Shellfenster darf jetzt geschlossen werden '" 
+             done3="'(drücken Sie eine beliebige Taste zu schliessen)'" ;;
+
+      el)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
+             use_apt_get_dash_dash_yes="use apt-get --yes option for "
+             auto_close_term_window1="automatically close terminal window when apt-get "
+             auto_close_term_window2=" complete"
+             switch_to1="switch to 'apt-get "
+             switch_to2=""
+             done0="" 
+             done1=' complete (or was canceled)"' 
+             done2="'this terminal window can now be closed '" 
+             done3="'(press any key to close)'" ;;
+
+      es)    window_title="MX Apt Notifier--Ver y Actualizar, vista previa: apt-get "
+             use_apt_get_dash_dash_yes="usar la opci\xf3n --yes de apt-get para "
+             auto_close_term_window1="Cerrar automáticamente la terminal cuando se completa apt-get "
+             auto_close_term_window2=""
+             switch_to1="cambiar a 'apt-get "
+             switch_to2=""
+             done0="se complet\xf3 "
+             done1=' (o se cancel\xf3)"' 
+             done2="'esta ventana de terminal ya puede cerrarse '" 
+             done3="'(oprima cualquier tecla para cerrarla)'"  ;;
+
+      fr)    window_title="MX Apt Notifier--Voir et mettre à niveau, survol du programme apt-get "
+             use_apt_get_dash_dash_yes="utiliser l'option --yes de apt-get pour "
+             auto_close_term_window1="fermer automatiquement la fenêtre de terminal quand apt-get "
+             auto_close_term_window2=" se termine"
+             switch_to1="passer à apt-get "
+             switch_to2=""
+             done0=""
+             done1=" s'est terminé (ou a été annulé)"'"' 
+             done2="'vous pouvez maintenant fermer cette fenêtre de terminal '" 
+             done3='"(appuyez sur n'"'"'importe quelle touche pour fermer)"' ;;
+
+      ja)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
+             use_apt_get_dash_dash_yes="use apt-get --yes option for "
+             auto_close_term_window1="automatically close terminal window when apt-get "
+             auto_close_term_window2=" complete"
+             switch_to1="switch to 'apt-get "
+             switch_to2=""
+             done0="" 
+             done1=' complete (or was canceled)"' 
+             done2="'this terminal window can now be closed '" 
+             done3="'(press any key to close)'" ;;
+
+      nl)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
+             use_apt_get_dash_dash_yes="use apt-get --yes option for "
+             auto_close_term_window1="automatically close terminal window when apt-get "
+             auto_close_term_window2=" complete"
+             switch_to1="switch to 'apt-get "
+             switch_to2=""
+             done0="" 
+             done1=' complete (or was canceled)"' 
+             done2="'this terminal window can now be closed '" 
+             done3="'(press any key to close)'" ;;
+
+      sv)    window_title="MX Apt Notifier--Granska och Uppgradera, förhandsgranskning: apt-get "
+             use_apt_get_dash_dash_yes="använd apt-get's --yes möjlighet för "
+             auto_close_term_window1="stäng automatiskt terminalfönstret när apt-get "
+             auto_close_term_window2=" är slutförd"
+             switch_to1="byt till 'apt-get "
+             switch_to2=""
+             done0="" 
+             done1=' färdig (eller stoppades)"' 
+             done2="'detta terminalfönster kan nu stängas '" 
+             done3="'(tryck på valfri tangent för att stänga)'" ;;
+
+       *)    : ;;
+
+    esac
+
     DoUpgrade(){
       case $1 in
         0)
         BP="1"
+        TermXOffset="$(xwininfo -root|awk '/Width/{print $2/4}')"
+        TermYOffset="$(xwininfo -root|awk '/Height/{print $2/4}')"
+        Geometry="--geometry=80x25+"$TermXOffset"+"$TermYOffset
+        Icon="--icon=/usr/share/icons/mnotify-some.png"
+        Title="--title='apt-notifer: apt-get "$UpgradeType"'" 
         if (xprop -root | grep -q -i kde)
           then
             # running KDE
@@ -105,11 +371,11 @@ def viewandupgrade():
             #   apt-get command in single quotes.
             # if x-terminal-emulator is set to xterm, use konsole instead, if it's available (it should be)
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                             kdesu -c        "konsole -e  bash $TMP/upgradeScript " ;;
-              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal -e 'bash $TMP/upgradeScript'" ;;
-              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c        "konsole -e  bash $TMP/upgradeScript "
-                                      [   -e /usr/bin/konsole ]        ||         kdesu -c          "xterm -e  bash $TMP/upgradeScript " ;;
-              *                     )                                                                                                    ;;
+              konsole               )                                             kdesu -c "konsole                               -e  bash $TMP/upgradeScript " ;;
+              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal $Geometry $Icon $Title -e 'bash $TMP/upgradeScript'" ;;
+              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c "konsole                               -e  bash $TMP/upgradeScript "
+                                      [   -e /usr/bin/konsole ]        ||         kdesu -c "xterm                                 -e  bash $TMP/upgradeScript " ;;
+              *                     )                                                                                                                           ;;
             esac  
           else
             # running a non KDE desktop
@@ -119,11 +385,11 @@ def viewandupgrade():
             #   apt-get command in single quotes.
             # if x-terminal-emulator is set to xterm, use xfce4-terminal instead, if it's available (it is in MX) 
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                     su-to-root -X -c        "konsole -e  bash $TMP/upgradeScript " ;;
-              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal -e 'bash $TMP/upgradeScript'" ;;
-              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal -e 'bash $TMP/upgradeScript'"
-                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c          "xterm -e  bash $TMP/upgradeScript " ;;             
-              *                     )                                                                                                    ;;
+              konsole               )                                     su-to-root -X -c "konsole                               -e  bash $TMP/upgradeScript " ;;
+              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal $Geometry $Icon $Title -e 'bash $TMP/upgradeScript'" ;;
+              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal $Geometry $Icon $Title -e 'bash $TMP/upgradeScript'"
+                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xterm                                 -e  bash $TMP/upgradeScript " ;;             
+              *                     )                                                                                                                           ;;
             esac
         fi
         ;;
@@ -194,12 +460,12 @@ def viewandupgrade():
         --width=640 \
         --height=480 \
         --center \
-        --title "apt-notifier View and Upgrade, previewing: apt-get "$UpgradeType \
+        --title "$window_title$UpgradeType" \
         --form \
           --field :TXT "$(cat "$TMP"/upgrades)" \
-          --field="use apt-get's --yes option for $UpgradeType":CHK $UpgradeAssumeYes \
-          --field="automatically close terminal window when apt-get $UpgradeType complete":CHK $UpgradeAutoClose \
-        --button "switch to 'apt-get "$OtherUpgradeType"'":4 \
+          --field="$use_apt_get_dash_dash_yes$UpgradeType":CHK $UpgradeAssumeYes \
+          --field="$auto_close_term_window1$UpgradeType$auto_close_term_window2":CHK $UpgradeAutoClose \
+        --button "$switch_to1$OtherUpgradeType'$switch_to2":4 \
         --button gtk-ok!!apt-get\ $UpgradeType:0 \
         --button gtk-cancel:2 \
         --buttons-layout=spread \
@@ -250,15 +516,15 @@ def viewandupgrade():
         echo 'rm -f "$SynapticPins"'>> "$TMP"/upgradeScript
         if [ "$UpgradeAutoClose" = "true" ];
           then
-            echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
+            echo 'echo "'$done0'apt-get '$UpgradeType$done1>> "$TMP"/upgradeScript
             echo "echo">> "$TMP"/upgradeScript
             echo "sleep 1">> "$TMP"/upgradeScript
             echo "exit 0">> "$TMP"/upgradeScript
           else
-            echo "echo 'apt-get '"$UpgradeType"' complete (or was canceled)'">> "$TMP"/upgradeScript
+            echo 'echo "'$done0'apt-get '$UpgradeType$done1>> "$TMP"/upgradeScript
             echo "echo">> "$TMP"/upgradeScript
-            echo "echo -n 'this terminal window can now be closed '">> "$TMP"/upgradeScript
-            echo "read -sn 1 -p '(press any key to close)' -t 999999999">> "$TMP"/upgradeScript
+            echo "echo -n $done2">> "$TMP"/upgradeScript
+            echo "read -sn 1 -p $done3 -t 999999999">> "$TMP"/upgradeScript
             echo "echo">> "$TMP"/upgradeScript
             echo "exit 0">> "$TMP"/upgradeScript
         fi
@@ -368,12 +634,91 @@ def initialize_aptnotifier_prefs():
 def aptnotifier_prefs():
     initialize_aptnotifier_prefs()
     script = '''#! /bin/bash
+
+             window_title="MX Apt Notifier preferences"
+             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
+             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
+             left_click_Synaptic="opens Synaptic "
+             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete"
+
+    case $(locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_) in
+
+         ca) window_title="MX Apt Notifier preferences"
+             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
+             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
+             left_click_Synaptic="opens Synaptic "
+             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+
+         de) window_title="MX Apt Notifier Einstellungen"
+             frame_upgrade_behaviour="  Upgrade-Verhalten (beeinflusst auch die Zählung der Meldung)   "
+             frame_left_click_behaviour="  Linksklick-Verhalten (wenn Updates verfügbar sind)   "
+             left_click_Synaptic="startet Synaptic "
+             left_click_ViewandUpgrade='öffnet das Fenster im MX Apt Notifier "Anschauen and Aufrüsten"'
+             use_apt_get_dash_dash_yes="Option --yes von apt-get's benutzen bei upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="Shellfenster automatiisch schliessen nach Ende von apt-get upgrade/dist-upgrade" ;;
+
+         el) window_title="MX Apt Notifier preferences"
+             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
+             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
+             left_click_Synaptic="opens Synaptic "
+             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+
+         es) window_title="MX preferencias de Apt Notifier"
+             frame_upgrade_behaviour="  comportamiento de actualizaci\xf3n (también afecta la cuenta de notificaciones)   "
+             frame_left_click_behaviour="  comportamiento del clic izquierdo (cuando hay actualizaciones disponibles)   "
+             left_click_Synaptic="abre Synaptic "
+             left_click_ViewandUpgrade='abre la ventana "Ver y Actualizar" de MX Apt Notifier'
+             use_apt_get_dash_dash_yes="usar la opci\xf3n --yes de apt-get's para upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="Cerrar automáticamente la terminal cuando se completa apt-get upgrade/dist-upgrade" ;;
+
+         fr) window_title="Préferences pour MX Apt Notifier"
+             frame_upgrade_behaviour="  Comportement de la mise à niveau (influe aussi sur le compte dans la notification)   "
+             frame_left_click_behaviour="  Comportement du clic gauche (quand des mises à jour sont disponibles)   "
+             left_click_Synaptic="lance Synaptic "
+             left_click_ViewandUpgrade='lance MX Apt Notifier "Voir et mettre à niveau" dans une fenêtre'
+             use_apt_get_dash_dash_yes="utiliser l'option --yes de apt-get pour upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="fermer automatiquement la fenêtre de terminal quand apt-get upgrade/dist-upgrade se termine" ;;
+
+         ja) window_title="MX Apt Notifier preferences"
+             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
+             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
+             left_click_Synaptic="opens Synaptic "
+             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+
+
+         nl) window_title="MX Apt Notifier preferences"
+             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
+             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
+             left_click_Synaptic="opens Synaptic "
+             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+
+         sv) window_title="MX Apt Notifier inställningar"
+             frame_upgrade_behaviour="  uppgraderingsbeteende (påverkar också antalet i meddelandena)   "
+             frame_left_click_behaviour="  vänster-klicks beteende (när uppdateringar är tillgängliga)   "
+             left_click_Synaptic="öppnar Synaptic "
+             left_click_ViewandUpgrade='öppnar MX Apt Notifier "Granska och uppgradera"-fönster'
+             use_apt_get_dash_dash_yes="använd apt-get's --yes möjlighet för upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="stäng automatiskt terminalfönstret när apt-get upgrade/dist-upgrade är slutfört" ;;
+
+          *) : ;;
+    esac
+
     TMP=$(mktemp -d /tmp/apt_notifier_preferences_dialog.XXXXXX)
     touch "$TMP"/output
     cat << EOF > "$TMP"/DIALOG
-    <window title="MX Apt Notifier preferences" icon-name="mnotify-some">
+    <window title="@title@" icon-name="mnotify-some">
       <vbox>
-        <frame  upgrade behaviour   (also affects notification count)   >
+        <frame @upgrade_behaviour@>
           <radiobutton active="@UpgradeBehaviourAptGetUpgrade@">
             <label>apt-get upgrade</label>
             <variable>UpgradeType_upgrade</variable>
@@ -385,28 +730,28 @@ def aptnotifier_prefs():
             <action>:</action>
           </radiobutton>
         </frame>
-        <frame  left-click behaviour   (when updates are available)   >
+        <frame @leftclick_behaviour@>
           <radiobutton active="@LeftClickBehaviourSynaptic@">
-            <label>opens Synaptic </label>
+            <label>@opens_Synaptic@</label>
             <variable>LeftClickSynaptic</variable>
             <action>:</action>
           </radiobutton>
           <radiobutton active="@LeftClickBehaviourViewAndUpgrade@">
-            <label>opens MX Apt Notifier "View and Upgrade" window</label>
+            <label>@opens_View_and_Upgrade@</label>
             <variable>LeftClickViewAndUpgrade</variable>
             <action>:</action>
           </radiobutton>
         </frame>
         <frame>
           <checkbox active="@UpgradeAssumeYes@">
-            <label>use apt-get --yes option for upgrade/dist-upgrade</label>
+            <label>@use_apt_get_yes@</label>
             <variable>UpgradeAssumeYes</variable>
             <action>:</action>
           </checkbox>
         </frame>
         <frame>
           <checkbox active="@UpgradeAutoClose@">
-            <label>automatically close terminal window when apt-get upgrade/dist-upgrade complete</label>
+            <label>@auto_close_term_window@</label>
             <variable>UpgradeAutoClose</variable>
             <action>:</action>
           </checkbox>
@@ -418,6 +763,15 @@ def aptnotifier_prefs():
       </vbox>
     </window>
 EOF
+
+    # edit translateable strings placeholders in "$TMP"/DIALOG
+    sed -i 's/@title@/'"$window_title"'/' "$TMP"/DIALOG
+    sed -i 's/@upgrade_behaviour@/'"$frame_upgrade_behaviour"'/' "$TMP"/DIALOG
+    sed -i 's/@leftclick_behaviour@/'"$frame_left_click_behaviour"'/' "$TMP"/DIALOG
+    sed -i 's/@opens_Synaptic@/'"$left_click_Synaptic"'/' "$TMP"/DIALOG
+    sed -i 's/@opens_View_and_Upgrade@/'"$left_click_ViewandUpgrade"'/' "$TMP"/DIALOG
+    sed -i 's|@use_apt_get_yes@|'"$use_apt_get_dash_dash_yes"'|' "$TMP"/DIALOG
+    sed -i 's|@auto_close_term_window@|'"$auto_close_term_window_when_complete"'|' "$TMP"/DIALOG
 
     # edit placeholders in "$TMP"/DIALOG to set initial settings of the radiobuttons & checkboxes 
     sed -i 's/@UpgradeBehaviourAptGetUpgrade@/'$(if [ $(grep UpgradeType=upgrade ~/.config/apt-notifierrc) ]; then echo -n true; else echo -n false; fi)'/' "$TMP"/DIALOG
@@ -498,10 +852,10 @@ def add_rightclick_actions():
     command_string = "cat " + rc_file_name + " | grep -q LeftClick=ViewAndUpgrade"
     exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
     if exit_state == 0:
-        process_updates_action = ActionsMenu.addAction("Upgrade using Synaptic")
+        process_updates_action = ActionsMenu.addAction(Upgrade_using_Synaptic)
         AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), start_synaptic)
     else:
-        process_updates_action = ActionsMenu.addAction("View and Upgrade")
+        process_updates_action = ActionsMenu.addAction(View_and_Upgrade)
         AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), viewandupgrade)
     add_apt_notifier_help_action()
     add_synaptic_help_action()
@@ -511,7 +865,7 @@ def add_rightclick_actions():
 def add_hide_action():
     ActionsMenu.clear()
     if icon_config == "show":
-        hide_action = ActionsMenu.addAction("Hide until updates available")
+        hide_action = ActionsMenu.addAction(Hide_until_updates_available)
         AptNotify.connect(hide_action,QtCore.SIGNAL("triggered()"),set_noicon)
     add_apt_notifier_help_action()
     add_synaptic_help_action()
@@ -520,12 +874,12 @@ def add_hide_action():
 
 def add_quit_action():
     ActionsMenu.addSeparator()
-    quit_action = ActionsMenu.addAction(QuitIcon,"Quit Apt-Notifier")
+    quit_action = ActionsMenu.addAction(QuitIcon,Quit_Apt_Notifier)
     AptNotify.connect(quit_action, QtCore.SIGNAL("triggered()"), AptNotify.exit)
 
 def add_apt_notifier_help_action():
     ActionsMenu.addSeparator()
-    apt_notifier_help_action = ActionsMenu.addAction(HelpIcon,"Apt-Notifier Help")
+    apt_notifier_help_action = ActionsMenu.addAction(HelpIcon,Apt_Notifier_Help)
     apt_notifier_help_action.triggered.connect(open_apt_notifier_help)
     
 def open_apt_notifier_help():
@@ -533,7 +887,7 @@ def open_apt_notifier_help():
     
 def add_synaptic_help_action():
     ActionsMenu.addSeparator()
-    synaptic_help_action = ActionsMenu.addAction(HelpIcon,"Synaptic Help")
+    synaptic_help_action = ActionsMenu.addAction(HelpIcon,Synaptic_Help)
     synaptic_help_action.triggered.connect(open_synaptic_help)
     
 def open_synaptic_help():
@@ -541,7 +895,7 @@ def open_synaptic_help():
 
 def add_aptnotifier_prefs_action():
     ActionsMenu.addSeparator()
-    aptnotifier_prefs_action =  ActionsMenu.addAction("Apt Notifier Preferences")
+    aptnotifier_prefs_action =  ActionsMenu.addAction(Apt_Notifier_Preferences)
     AptNotify.connect(aptnotifier_prefs_action,QtCore.SIGNAL("triggered()"), aptnotifier_prefs)
 
 # General application code	

@@ -1,3 +1,10 @@
+apt-notifier (1.1.3mcr120+0) mepis; urgency=low
+
+  * apt-notifier.py changes to support translations
+  * mx-apt-notifier-menu.desktop de,el,es,fr,sv translations added
+  * apt-notifier-menu.desktop de,el,es,fr,sv translations added
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Fri, 14 Nov 2014 20:34:12 -0500
+
 apt-notifier (1.1.2mcr120+4) mepis; urgency=low
 
   * Fix for unexpected hide-unhide behavior.
