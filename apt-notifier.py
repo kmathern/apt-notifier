@@ -220,7 +220,7 @@ def check_updates():
 
     # Alter both Icon and Tooltip, depending on updates available or not 
     if text == "0":
-        message_statusànot displayed"  # Resets flag once there are no more updates
+        message_status = "not displayed"  # Resets flag once there are no more updates
         add_hide_action()
         if icon_config != "show":
             AptIcon.hide()
