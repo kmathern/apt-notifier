@@ -116,6 +116,22 @@ elif locale == "fr":
     Synaptic_Help = "Aide sur Synaptic"
     Apt_Notifier_Preferences = "Pr\xe9ferences pour Apt Notifier"
 
+elif locale == "it":
+    tooltip_0_updates_available = "0 updates available"
+    tooltip_1_new_update_available = "1 new update available"
+    tooltip_multiple_new_updates_available = " new updates available"
+    popup_title = "Updates"
+    popup_msg_1_new_update_available = "You have 1 new update available"
+    popup_msg_multiple_new_updates_available_begin = "You have "
+    popup_msg_multiple_new_updates_available_end = " new updates available"
+    Upgrade_using_Synaptic = "Upgrade using Synaptic"
+    View_and_Upgrade = "View and Upgrade"
+    Hide_until_updates_available = "Hide until updates available"
+    Quit_Apt_Notifier = "Quit Apt-Notifier"
+    Apt_Notifier_Help = "Apt-Notifier Help"
+    Synaptic_Help = "Synaptic Help"
+    Apt_Notifier_Preferences = "Apt Notifier Preferences"
+
 elif locale == "ja":
     tooltip_0_updates_available = "0 updates available"
     tooltip_1_new_update_available = "1 new update available"
@@ -310,6 +326,17 @@ def viewandupgrade():
              done1=" s'est terminé (ou a été annulé)"'"' 
              done2="'vous pouvez maintenant fermer cette fenêtre de terminal '" 
              done3='"(appuyez sur n'"'"'importe quelle touche pour fermer)"' ;;
+
+      it)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for "
+             auto_close_term_window1="automatically close terminal window when apt-get "
+             auto_close_term_window2=" complete"
+             switch_to1="switch to 'apt-get "
+             switch_to2=""
+             done0="" 
+             done1=' complete (or was canceled)"' 
+             done2="'this terminal window can now be closed '" 
+             done3="'(press any key to close)'" ;;
 
       ja)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
              use_apt_get_dash_dash_yes="use apt-get --yes option for "
@@ -679,6 +706,14 @@ def aptnotifier_prefs():
              left_click_ViewandUpgrade='lance MX Apt Notifier "Voir et mettre à niveau" dans une fenêtre'
              use_apt_get_dash_dash_yes="utiliser l'option --yes de apt-get pour upgrade/dist-upgrade"
              auto_close_term_window_when_complete="fermer automatiquement la fenêtre de terminal quand apt-get upgrade/dist-upgrade se termine" ;;
+
+         it) window_title="MX Apt Notifier preferences"
+             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
+             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
+             left_click_Synaptic="opens Synaptic "
+             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
+             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
 
          ja) window_title="MX Apt Notifier preferences"
              frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
