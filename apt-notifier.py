@@ -43,7 +43,7 @@ if locale == "ca":
     popup_title = u"Updates"
     popup_msg_1_new_update_available = u"You have 1 new update available"
     popup_msg_multiple_new_updates_available_begin = u"You have "
-    popup_msg_multiple_new_updates_available_end = " new updates available"
+    popup_msg_multiple_new_updates_available_end = u" new updates available"
     Upgrade_using_Synaptic = u"Upgrade using Synaptic"
     View_and_Upgrade = u"View and Upgrade"
     Hide_until_updates_available = u"Hide until updates available"
