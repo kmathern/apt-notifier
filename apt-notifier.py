@@ -387,7 +387,7 @@ def viewandupgrade():
         TermYOffset="$(xwininfo -root|awk '/Height/{print $2/4}')"
         Geometry="--geometry=80x25+"$TermXOffset"+"$TermYOffset
         Icon="--icon=/usr/share/icons/mnotify-some.png"
-        Title="--title='apt-notifer: apt-get "$UpgradeType"'" 
+        Title="--title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifer: apt-get "$UpgradeType"'" 
         if (xprop -root | grep -q -i kde)
           then
             # running KDE
