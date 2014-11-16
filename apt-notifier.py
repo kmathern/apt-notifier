@@ -552,7 +552,7 @@ def viewandupgrade():
         fi
 
         DoUpgrade $(tail -n1 "$TMP"/results)
-    
+        sleep 5
         rm -rf "$TMP"
 
       done
