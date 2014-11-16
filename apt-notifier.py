@@ -130,7 +130,7 @@ elif locale == "it":
     Quit_Apt_Notifier = u"Chiudi Apt-Notifier"
     Apt_Notifier_Help = u"Aiuto su Apt-notifier"
     Synaptic_Help = u"Aiuto su Synaptic"
-    Apt_Notifier_Preferences = u"Preferenze per Apt Notifier"    
+    Apt_Notifier_Preferences = u"Preferenze per Apt Notifier"
 
 elif locale == "ja":
     tooltip_0_updates_available = u"0 新たな更新はありません"
