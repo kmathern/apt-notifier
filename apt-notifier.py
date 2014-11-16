@@ -375,6 +375,10 @@ def viewandupgrade():
 
     esac
 
+    
+    #for MEPIS remove "MX" branding from the $window_title string
+    window_title=$(echo $window_title|sed 's/MX /'$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)" "'/')
+
     DoUpgrade(){
       case $1 in
         0)
@@ -741,6 +745,10 @@ def aptnotifier_prefs():
 
           *) : ;;
     esac
+
+    #for MEPIS remove "MX" branding from the $window_title and $left_click_ViewandUpgrade strings
+    window_title=$(echo $window_title|sed 's/MX /'$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)" "'/')
+    left_click_ViewandUpgrade=$(echo $left_click_ViewandUpgrade|sed 's/MX /'$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)" "'/')
 
     TMP=$(mktemp -d /tmp/apt_notifier_preferences_dialog.XXXXXX)
     touch "$TMP"/output
