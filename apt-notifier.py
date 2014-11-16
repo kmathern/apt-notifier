@@ -337,7 +337,7 @@ def viewandupgrade():
              done1=' ha terminato (o è stato annullato)"'
              done2="'Ora è possibile chiudere questa finestra del terminale '"
              done3="'(premi un tasto qualsiasi per chiudere)'" ;;
-             
+
       ja)    window_title="MX Apt Notifier--表示・更新 これを試す: apt-get "
              use_apt_get_dash_dash_yes="で apt-get's --yes オプションを使用する "
              auto_close_term_window1="apt-get "
