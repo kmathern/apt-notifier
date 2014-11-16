@@ -117,20 +117,20 @@ elif locale == "fr":
     Apt_Notifier_Preferences = u"Préferences pour Apt Notifier"
 
 elif locale == "it":
-    tooltip_0_updates_available = u"0 updates available"
-    tooltip_1_new_update_available = u"1 new update available"
-    tooltip_multiple_new_updates_available = u" new updates available"
-    popup_title = u"Updates"
-    popup_msg_1_new_update_available = u"You have 1 new update available"
-    popup_msg_multiple_new_updates_available_begin = u"You have "
-    popup_msg_multiple_new_updates_available_end = u" new updates available"
-    Upgrade_using_Synaptic = u"Upgrade using Synaptic"
-    View_and_Upgrade = u"View and Upgrade"
-    Hide_until_updates_available = u"Hide until updates available"
-    Quit_Apt_Notifier = u"Quit Apt-Notifier"
-    Apt_Notifier_Help = u"Apt-Notifier Help"
-    Synaptic_Help = u"Synaptic Help"
-    Apt_Notifier_Preferences = u"Apt Notifier Preferences"
+    tooltip_0_updates_available = u"0 aggiornamenti disponibili"
+    tooltip_1_new_update_available = u"1 nuovo aggiornamento disponibile"
+    tooltip_multiple_new_updates_available = u" nuovi aggiornamenti disponibili"
+    popup_title = u"Aggiornamenti"
+    popup_msg_1_new_update_available = u"Hai 1 nuovo aggiornamento disponibile"
+    popup_msg_multiple_new_updates_available_begin = u"Hai "
+    popup_msg_multiple_new_updates_available_end = u" nuovi aggiornamenti disponibili"
+    Upgrade_using_Synaptic = u"Aggiornare tramite Synaptic"
+    View_and_Upgrade = u"Mostra e aggiorna"
+    Hide_until_updates_available = u"Nascondi finchè non hai aggiornamenti disponibili"
+    Quit_Apt_Notifier = u"Chiudi Apt-Notifier"
+    Apt_Notifier_Help = u"Aiuto su Apt-notifier"
+    Synaptic_Help = u"Aiuto su Synaptic"
+    Apt_Notifier_Preferences = u"Preferenze per Apt Notifier"    
 
 elif locale == "ja":
     tooltip_0_updates_available = u"0 新たな更新はありません"
@@ -327,17 +327,17 @@ def viewandupgrade():
              done2="'vous pouvez maintenant fermer cette fenêtre de terminal '" 
              done3='"(appuyez sur n'"'"'importe quelle touche pour fermer)"' ;;
 
-      it)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
-             use_apt_get_dash_dash_yes="use apt-get's --yes option for "
-             auto_close_term_window1="automatically close terminal window when apt-get "
-             auto_close_term_window2=" complete"
-             switch_to1="switch to 'apt-get "
+      it)    window_title="MX Apt Notifier--Mostra e Aggiorna, presentazione di: apt-get "
+             use_apt_get_dash_dash_yes="usare l'opzione --yes di apt-get per l' "
+             auto_close_term_window1="chiudere automaticamente la finestra del terminale quando apt-get "
+             auto_close_term_window2=" ha terminato"
+             switch_to1="passare a 'apt-get upgrade"
              switch_to2=""
-             done0="" 
-             done1=' complete (or was canceled)"' 
-             done2="'this terminal window can now be closed '" 
-             done3="'(press any key to close)'" ;;
-
+             done0=""
+             done1=' ha terminato (o è stato annullato)"'
+             done2="'Ora è possibile chiudere questa finestra del terminale '"
+             done3="'(premi un tasto qualsiasi per chiudere)'" ;;
+             
       ja)    window_title="MX Apt Notifier--表示・更新 これを試す: apt-get "
              use_apt_get_dash_dash_yes="で apt-get's --yes オプションを使用する "
              auto_close_term_window1="apt-get "
@@ -707,13 +707,13 @@ def aptnotifier_prefs():
              use_apt_get_dash_dash_yes="utiliser l'option --yes de apt-get pour upgrade/dist-upgrade"
              auto_close_term_window_when_complete="fermer automatiquement la fenêtre de terminal quand apt-get upgrade/dist-upgrade se termine" ;;
 
-         it) window_title="MX Apt Notifier preferences"
-             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
-             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
-             left_click_Synaptic="opens Synaptic "
-             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
-             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
-             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+         it) window_title="Preferenze per MX Apt Notifier"
+             frame_upgrade_behaviour="  Comportamento dell'aggiornamento (compresa la conta delle notifiche)   "
+             frame_left_click_behaviour="  Comportemento click sinistro (quando sono disponibili aggiornamenti)   "
+             left_click_Synaptic="apre Synaptic "
+             left_click_ViewandUpgrade='apre la finestra "Mostra e Aggiorna" di MX Apt Notifier'
+             use_apt_get_dash_dash_yes="usare l'opzione --yes di apt-get per l' upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="chiudere automaticamente la finestra del terminale quando apt-get upgrade/dist-upgrade ha terminato" ;;            
 
          ja) window_title="MX Apt Notifier 設定"
              frame_upgrade_behaviour="  更新の動作 (通知数に影響があります)   "
