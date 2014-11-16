@@ -20,6 +20,7 @@ script_file.write(script)
 script_file.flush()
 run = subprocess.Popen(["echo -n `sh %s`" % script_file.name],shell=True, stdout=subprocess.PIPE)
 locale = run.stdout.read(128)
+script_file.close()
 
 tooltip_0_updates_available = u"0 updates available"
 tooltip_1_new_update_available = u"1 new update available"
@@ -217,6 +218,7 @@ def check_updates():
     run = subprocess.Popen(["echo -n `sh %s`" % script_file.name],shell=True, stdout=subprocess.PIPE)
     # Read the output into a text string
     text = run.stdout.read(128)
+    script_file.close()
 
     # Alter both Icon and Tooltip, depending on updates available or not 
     if text == "0":
@@ -572,6 +574,7 @@ def viewandupgrade():
     script_file.write(script)
     script_file.flush()
     run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
+    script_file.close()
     check_updates()
 
 def initialize_aptnotifier_prefs():
@@ -655,6 +658,7 @@ def initialize_aptnotifier_prefs():
     script_file.write(script)
     script_file.flush()
     run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
+    script_file.close()
 
 def aptnotifier_prefs():
     initialize_aptnotifier_prefs()
@@ -843,6 +847,7 @@ EOF
     script_file.write(script)
     script_file.flush()
     run = subprocess.Popen(['sh %s' % script_file.name],shell=True).wait()
+    script_file.close()
     check_updates()
 
 # Define the command to run when left clicking on the Tray Icon
