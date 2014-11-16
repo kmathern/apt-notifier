@@ -375,7 +375,6 @@ def viewandupgrade():
 
     esac
 
-    
     #for MEPIS remove "MX" branding from the $window_title string
     window_title=$(echo $window_title|sed 's/MX /'$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)" "'/')
 
