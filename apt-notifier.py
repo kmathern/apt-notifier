@@ -713,7 +713,7 @@ def aptnotifier_prefs():
              left_click_Synaptic="apre Synaptic "
              left_click_ViewandUpgrade='apre la finestra "Mostra e Aggiorna" di MX Apt Notifier'
              use_apt_get_dash_dash_yes="usare l'opzione --yes di apt-get per l' upgrade/dist-upgrade"
-             auto_close_term_window_when_complete="chiudere automaticamente la finestra del terminale quando apt-get upgrade/dist-upgrade ha terminato" ;;            
+             auto_close_term_window_when_complete="chiudere automaticamente la finestra del terminale quando apt-get upgrade/dist-upgrade ha terminato" ;;
 
          ja) window_title="MX Apt Notifier 設定"
              frame_upgrade_behaviour="  更新の動作 (通知数に影響があります)   "
