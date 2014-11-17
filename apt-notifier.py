@@ -391,32 +391,87 @@ def viewandupgrade():
         Title="--title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifer: apt-get "$UpgradeType"'" 
         if (xprop -root | grep -q -i kde)
           then
-            # running KDE
-            # can't get su-to-root to work in newer KDE's, so use kdesu for authentication  
-            # if x-terminal-emulator is set to xfce4-terminal.wrapper, use xfce4-terminal instead 
-            #   because the --hold option doesn't work with the wrapper. Also need to enclose the
-            #   apt-get command in single quotes.
-            # if x-terminal-emulator is set to xterm, use konsole instead, if it's available (it should be)
+
+            # Running KDE
+            #
+            # Can't get su-to-root to work in newer KDE's, so use kdesu for 
+            # authentication.
+            #  
+            # If x-terminal-emulator is set to xfce4-terminal.wrapper, use     
+            # xfce4-terminal instead because the --hold option doesn't work with
+            # the wrapper. Also need to enclose the apt-get command in single 
+            # quotes.
+            #
+            # If x-terminal-emulator is set to xterm, use konsole instead, if 
+            # it's available (it should be).
+
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                             kdesu -c "konsole                               -e  bash $TMP/upgradeScript " ;;
-              xfce4-terminal.wrapper)                                             kdesu -c "xfce4-terminal $Geometry $Icon $Title -e 'bash $TMP/upgradeScript'" ;;
-              xterm                 ) [ ! -e /usr/bin/konsole ]        ||         kdesu -c "konsole                               -e  bash $TMP/upgradeScript "
-                                      [   -e /usr/bin/konsole ]        ||         kdesu -c "xterm                                 -e  bash $TMP/upgradeScript " ;;
-              *                     )                                                                                                                           ;;
-            esac  
+
+                             konsole) kdesu -c "konsole \
+                                      -e bash $TMP/upgradeScript"
+                                      sleep 5
+                                      ;;
+
+              xfce4-terminal.wrapper) kdesu -c "xfce4-terminal \
+                                      $Geometry $Icon $Title \
+                                      -e 'bash $TMP/upgradeScript'"
+                                      ;;
+
+                               xterm) if [ -e /usr/bin/konsole ]
+                                        then
+                                          kdesu -c "konsole \
+                                          -e bash $TMP/upgradeScript"
+                                          sleep 5
+                                        else
+                                          kdesu -c "xterm \
+                                          -e bash $TMP/upgradeScript"
+                                      fi
+                                      ;;
+
+                                   *) :
+                                      ;;
+            esac
+
           else
-            # running a non KDE desktop
-            # use su-to-root for authentication, it should end up using gksu
-            # if x-terminal-emulator is set to xfce4-terminal.wrapper, use xfce4-terminal instead 
-            #   because the --hold option doesn't work with the wrapper. Also need to enclose the
-            #   apt-get command in single quotes.
-            # if x-terminal-emulator is set to xterm, use xfce4-terminal instead, if it's available (it is in MX) 
+
+            # Running a non KDE desktop
+            # 
+            # Use su-to-root for authentication, it should end up using gksu.
+            # 
+            # If x-terminal-emulator is set to xfce4-terminal.wrapper, use 
+            # xfce4-terminal instead because the --hold option doesn't work
+            # with the wrapper. Also need to enclose the apt-get command in
+            # single quotes.
+            #
+            # If x-terminal-emulator is set to xterm, use xfce4-terminal 
+            # instead, if it's available (it is in MX)
+
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
-              konsole               )                                     su-to-root -X -c "konsole                               -e  bash $TMP/upgradeScript " ;;
-              xfce4-terminal.wrapper)                                     su-to-root -X -c "xfce4-terminal $Geometry $Icon $Title -e 'bash $TMP/upgradeScript'" ;;
-              xterm                 ) [ ! -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xfce4-terminal $Geometry $Icon $Title -e 'bash $TMP/upgradeScript'"
-                                      [   -e /usr/bin/xfce4-terminal ] || su-to-root -X -c "xterm                                 -e  bash $TMP/upgradeScript " ;;             
-              *                     )                                                                                                                           ;;
+
+                             konsole) su-to-root -X -c "konsole \
+                                      -e  bash $TMP/upgradeScript"
+                                      sleep 5
+                                      ;;
+
+              xfce4-terminal.wrapper) su-to-root -X -c "xfce4-terminal \
+                                      $Geometry $Icon $Title \
+                                      -e 'bash $TMP/upgradeScript'"
+                                      ;;
+
+                               xterm) if [ -e /usr/bin/xfce4-terminal ]
+                                        then
+                                          su-to-root -X -c "xfce4-terminal \
+                                          $Geometry $Icon $Title \
+                                          -e 'bash $TMP/upgradeScript'"
+                                        else
+                                          su-to-root -X -c "xterm \
+                                          -e  bash $TMP/upgradeScript"
+                                      fi
+                                      ;;
+
+                                   *) :
+                                      ;;
+
             esac
         fi
         ;;
@@ -557,7 +612,7 @@ def viewandupgrade():
         fi
 
         DoUpgrade $(tail -n1 "$TMP"/results)
-        sleep 5
+
         rm -rf "$TMP"
 
       done
