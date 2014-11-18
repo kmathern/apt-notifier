@@ -3,6 +3,14 @@
 # Kill any notifier(s) running
 pkill -f 'python /usr/bin/apt-notifier.py'
 
+# Remove any previously created /tmp/tmp****** files owned by current user,
+# that have -rw------ permissions, and contain the pattern "sorted_list_of_upgrades()".
+ 
+for i in $(cd /tmp; find . -user $USER -perm 600 -regextype posix-egrep -regex '\./tmp[[:print:]]{6}' 2>/dev/null | cut -c3-);
+   do 
+     grep -q "sorted_list_of_upgrades()" /tmp/$i;[ $? -ne 0 ]||rm /tmp/$i
+   done
+
 # create the apt-notifierrc file if it doesn't already exist
 if ! [ -f ~/.config/apt-notifierrc ]; 
 then 
