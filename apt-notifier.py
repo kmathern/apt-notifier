@@ -281,7 +281,7 @@ def viewandupgrade():
              switch_to1="canvia a 'apt-get "
              switch_to2=""
              done0="s'ha completat (o cancel·lat) "
-             done1='"' 
+             done1='"'
              done2="'ara podeu tancar la finestra '"
              done3="'(prement qualsevol tecla)'" ;;
 
