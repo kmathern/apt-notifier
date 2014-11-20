@@ -38,20 +38,20 @@ Synaptic_Help = u"Synaptic Help"
 Apt_Notifier_Preferences = u"Apt Notifier Preferences"
 
 if locale == "ca":
-    tooltip_0_updates_available = u"0 updates available"
-    tooltip_1_new_update_available = u"1 new update available"
-    tooltip_multiple_new_updates_available = u" new updates available"
-    popup_title = u"Updates"
-    popup_msg_1_new_update_available = u"You have 1 new update available"
-    popup_msg_multiple_new_updates_available_begin = u"You have "
-    popup_msg_multiple_new_updates_available_end = u" new updates available"
-    Upgrade_using_Synaptic = u"Upgrade using Synaptic"
-    View_and_Upgrade = u"View and Upgrade"
-    Hide_until_updates_available = u"Hide until updates available"
-    Quit_Apt_Notifier = u"Quit Apt-Notifier"
-    Apt_Notifier_Help = u"Apt-Notifier Help"
-    Synaptic_Help = u"Synaptic Help"
-    Apt_Notifier_Preferences = u"Apt Notifier Preferences"
+    tooltip_0_updates_available = u"No hi ha actualitzacions disponibles"
+    tooltip_1_new_update_available = u"1 actualització disponible"
+    tooltip_multiple_new_updates_available = u" noves actualitzacions disponibles"
+    popup_title = u"Actualitzacions"
+    popup_msg_1_new_update_available = u"Teniu 1 actualització disponible"
+    popup_msg_multiple_new_updates_available_begin = u"Teniu "
+    popup_msg_multiple_new_updates_available_end = u" noves actualitzacions disponibles"
+    Upgrade_using_Synaptic = u"Actualitza usant Synaptic"
+    View_and_Upgrade = u"Veure i actualitzar"
+    Hide_until_updates_available = u"Amagar fins que hi hagi actualitzacions disponibles"
+    Quit_Apt_Notifier = u"Surt d'Apt-Notifier"
+    Apt_Notifier_Help = u"Ajuda d'Apt-Notifier"
+    Synaptic_Help = u"Ajuda de Synaptic"
+    Apt_Notifier_Preferences = u"Preferències d'Apt Notifier"
 
 elif locale == "de":
     tooltip_0_updates_available = u"0 Updates verfügbar"
@@ -274,16 +274,16 @@ def viewandupgrade():
 
     case $(locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_) in
 
-      ca)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
-             use_apt_get_dash_dash_yes="use apt-get's --yes option for "
-             auto_close_term_window1="automatically close terminal window when apt-get "
-             auto_close_term_window2=" complete"
-             switch_to1="switch to 'apt-get "
+      ca)    window_title="MX Apt Notifier--Veure i actualitzar, vista prèvia: apt-get "
+             use_apt_get_dash_dash_yes="usa l'opció d'apt-get --yes per a "
+             auto_close_term_window1="tanca automàticament la finestra del terminal quan s'ha completat apt-get "
+             auto_close_term_window2=""
+             switch_to1="canvia a 'apt-get "
              switch_to2=""
-             done0="" 
-             done1=' complete (or was canceled)"' 
-             done2="'this terminal window can now be closed '" 
-             done3="'(press any key to close)'" ;;
+             done0="s'ha completat (o cancel·lat) "
+             done1='"' 
+             done2="'ara podeu tancar la finestra '"
+             done3="'(prement qualsevol tecla)'" ;;
 
       de)    window_title="MX Apt Notifier--Anschauen and aufrüsten, vorprüfend: apt-get "
              use_apt_get_dash_dash_yes="Option --yes von apt-get's benutzen bei "
@@ -729,13 +729,13 @@ def aptnotifier_prefs():
 
     case $(locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_) in
 
-         ca) window_title="MX Apt Notifier preferences"
-             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
-             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
-             left_click_Synaptic="opens Synaptic "
-             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
-             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
-             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+         ca) window_title="Preferències de MX Apt Notifier"
+             frame_upgrade_behaviour="  comportament d'actualitzacions (també afecta el compte d'actualitzacions)   "
+             frame_left_click_behaviour="  comportament del clic esquerre (quan hi ha actualitzacions)   "
+             left_click_Synaptic="obre Synaptic "
+             left_click_ViewandUpgrade='obre la finestra de MX Apt Notifier "Veure i actualitzar"'
+             use_apt_get_dash_dash_yes="usa l'opció d'apt-get --yes per a upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="tanca automàticament la finestra del terminal quan s'ha completat apt-get upgrade/dist-upgrade" ;;
 
          de) window_title="MX Apt Notifier Einstellungen"
              frame_upgrade_behaviour="  Upgrade-Verhalten (beeinflusst auch die Zählung der Meldung)   "
