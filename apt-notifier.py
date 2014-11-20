@@ -12,144 +12,32 @@ from PyQt4 import QtCore
 rc_file_name = environ.get('HOME') + '/.config/apt-notifierrc'
 message_status = "not displayed"
 
-script = '''#!/bin/sh
-locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_
-'''
-script_file = tempfile.NamedTemporaryFile('wt')
-script_file.write(script)
-script_file.flush()
-run = subprocess.Popen(["echo -n `sh %s`" % script_file.name],shell=True, stdout=subprocess.PIPE)
-locale = run.stdout.read(128)
-script_file.close()
+def set_translations():
+    script = '''#!/bin/sh
+    locale|grep ^LANG=|cut -f2 -d=|cut -f1 -d_
+    '''
+    script_file = tempfile.NamedTemporaryFile('wt')
+    script_file.write(script)
+    script_file.flush()
+    run = subprocess.Popen(["echo -n `sh %s`" % script_file.name],shell=True, stdout=subprocess.PIPE)
+    locale = run.stdout.read(128)
+    script_file.close()
 
-tooltip_0_updates_available = u"0 updates available"
-tooltip_1_new_update_available = u"1 new update available"
-tooltip_multiple_new_updates_available = u" new updates available"
-popup_title = u"Updates"
-popup_msg_1_new_update_available = u"You have 1 new update available"
-popup_msg_multiple_new_updates_available_begin = u"You have "
-popup_msg_multiple_new_updates_available_end = u" new updates available"
-Upgrade_using_Synaptic = u"Upgrade using Synaptic"
-View_and_Upgrade = u"View and Upgrade"
-Hide_until_updates_available = u"Hide until updates available"
-Quit_Apt_Notifier = u"Quit Apt-Notifier"
-Apt_Notifier_Help = u"Apt-Notifier Help"
-Synaptic_Help = u"Synaptic Help"
-Apt_Notifier_Preferences = u"Apt Notifier Preferences"
+    global tooltip_0_updates_available
+    global tooltip_1_new_update_available
+    global tooltip_multiple_new_updates_available
+    global popup_title
+    global popup_msg_1_new_update_available
+    global popup_msg_multiple_new_updates_available_begin
+    global popup_msg_multiple_new_updates_available_end
+    global Upgrade_using_Synaptic
+    global View_and_Upgrade
+    global Hide_until_updates_available
+    global Quit_Apt_Notifier
+    global Apt_Notifier_Help
+    global Synaptic_Help
+    global Apt_Notifier_Preferences    
 
-if locale == "ca":
-    tooltip_0_updates_available = u"No hi ha actualitzacions disponibles"
-    tooltip_1_new_update_available = u"1 actualització disponible"
-    tooltip_multiple_new_updates_available = u" noves actualitzacions disponibles"
-    popup_title = u"Actualitzacions"
-    popup_msg_1_new_update_available = u"Teniu 1 actualització disponible"
-    popup_msg_multiple_new_updates_available_begin = u"Teniu "
-    popup_msg_multiple_new_updates_available_end = u" noves actualitzacions disponibles"
-    Upgrade_using_Synaptic = u"Actualitza usant Synaptic"
-    View_and_Upgrade = u"Veure i actualitzar"
-    Hide_until_updates_available = u"Amagar fins que hi hagi actualitzacions disponibles"
-    Quit_Apt_Notifier = u"Surt d'Apt-Notifier"
-    Apt_Notifier_Help = u"Ajuda d'Apt-Notifier"
-    Synaptic_Help = u"Ajuda de Synaptic"
-    Apt_Notifier_Preferences = u"Preferències d'Apt Notifier"
-
-elif locale == "de":
-    tooltip_0_updates_available = u"0 Updates verfügbar"
-    tooltip_1_new_update_available = u"1 neues Update verfügbar"
-    tooltip_multiple_new_updates_available = u" neue Updates verfügbar"
-    popup_title = u"Updates"
-    popup_msg_1_new_update_available = u"Sie haben ein neues Update verfügbar"
-    popup_msg_multiple_new_updates_available_begin = u"Sie haben "
-    popup_msg_multiple_new_updates_available_end = u" neue Updates verfügbar"
-    Upgrade_using_Synaptic = u"Durch Synaptic aufrüsten"
-    View_and_Upgrade = u"Anschauen and aufrüsten"
-    Hide_until_updates_available = u"Verstercken bis Updates verfügbar"
-    Quit_Apt_Notifier = u"Apt-Notifier abbrechen "
-    Apt_Notifier_Help = u"Apt-Notifier Hilfe"
-    Synaptic_Help = u"Synaptic Hilfe"
-    Apt_Notifier_Preferences = u"Apt Notifier Einstellungen"
-
-elif locale == "el":
-    tooltip_0_updates_available = u"0 updates available"
-    tooltip_1_new_update_available = u"1 new update available"
-    tooltip_multiple_new_updates_available = u" neue updates available"
-    popup_title = u"Updates"
-    popup_msg_1_new_update_available = u"You have 1 new update available"
-    popup_msg_multiple_new_updates_available_begin = u"You have "
-    popup_msg_multiple_new_updates_available_end = u" new updates available"
-    Upgrade_using_Synaptic = u"Upgrade using Synaptic"
-    View_and_Upgrade = u"View and Upgrade"
-    Hide_until_updates_available = u"Hide until updates available"
-    Quit_Apt_Notifier = u"Quit Apt-Notifier"
-    Apt_Notifier_Help = u"Apt-Notifier Help"
-    Synaptic_Help = u"Synaptic Help"
-    Apt_Notifier_Preferences = u"Apt Notifier Preferences"
-
-elif locale == "es":
-    tooltip_0_updates_available = u"0 actualizaciones disponibles"
-    tooltip_1_new_update_available = u"1 nueva actualización disponible"
-    tooltip_multiple_new_updates_available = u" nuevas actualizaciones disponibles"
-    popup_title = u"Updates"
-    popup_msg_1_new_update_available = u"Tiene 1 nueva actualización disponible"
-    popup_msg_multiple_new_updates_available_begin = u"Tiene "
-    popup_msg_multiple_new_updates_available_end = u" nuevas actualizaciones disponibles"
-    Upgrade_using_Synaptic = u"Actualizar usando Synaptic"
-    View_and_Upgrade = u"Ver y Actualizar"
-    Hide_until_updates_available = u"Ocultar hasta que haya actualizaciones"
-    Quit_Apt_Notifier = u"Salir de Apt-Notifier"
-    Apt_Notifier_Help = u"Ayuda de Apt-Notifier"
-    Synaptic_Help = u"Ayuda de Synaptic"
-    Apt_Notifier_Preferences = u"Preferencias de Apt Notifier"
-
-elif locale == "fr":
-    tooltip_0_updates_available = u"0 mises à jour disponibles"
-    tooltip_1_new_update_available = u"1 nouvelle mise à jour disponible"
-    tooltip_multiple_new_updates_available = u" nouvelles mises à jour disponibles"
-    popup_title = u"Mises à jour"
-    popup_msg_1_new_update_available = u"Vous avez une nouvelle mise à jour disponible"
-    popup_msg_multiple_new_updates_available_begin = u"Vous avez "
-    popup_msg_multiple_new_updates_available_end = u" nouvelles mises à jour disponibles"
-    Upgrade_using_Synaptic = u"Mettre à niveau avec Synaptic"
-    View_and_Upgrade = u"Voir et mettre à niveau"
-    Hide_until_updates_available = u"Cacher jusqu'à ce que des mises à niveau soient disponibles"
-    Quit_Apt_Notifier = u"Annuler Apt-Notifier"
-    Apt_Notifier_Help = u"Aide sur Apt-notifier"
-    Synaptic_Help = u"Aide sur Synaptic"
-    Apt_Notifier_Preferences = u"Préferences pour Apt Notifier"
-
-elif locale == "it":
-    tooltip_0_updates_available = u"0 aggiornamenti disponibili"
-    tooltip_1_new_update_available = u"1 nuovo aggiornamento disponibile"
-    tooltip_multiple_new_updates_available = u" nuovi aggiornamenti disponibili"
-    popup_title = u"Aggiornamenti"
-    popup_msg_1_new_update_available = u"Hai 1 nuovo aggiornamento disponibile"
-    popup_msg_multiple_new_updates_available_begin = u"Hai "
-    popup_msg_multiple_new_updates_available_end = u" nuovi aggiornamenti disponibili"
-    Upgrade_using_Synaptic = u"Aggiornare tramite Synaptic"
-    View_and_Upgrade = u"Mostra e aggiorna"
-    Hide_until_updates_available = u"Nascondi finchè non hai aggiornamenti disponibili"
-    Quit_Apt_Notifier = u"Chiudi Apt-Notifier"
-    Apt_Notifier_Help = u"Aiuto su Apt-notifier"
-    Synaptic_Help = u"Aiuto su Synaptic"
-    Apt_Notifier_Preferences = u"Preferenze per Apt Notifier"
-
-elif locale == "ja":
-    tooltip_0_updates_available = u"0 新たな更新はありません"
-    tooltip_1_new_update_available = u"1 つの新たな更新が入手可能です"
-    tooltip_multiple_new_updates_available = u"つの新たな更新が入手可能です"
-    popup_title = u"更新"
-    popup_msg_1_new_update_available = u"1 つの新たな更新が入手可能です"
-    popup_msg_multiple_new_updates_available_begin = u""
-    popup_msg_multiple_new_updates_available_end = u"つの新たな更新が入手可能です"
-    Upgrade_using_Synaptic = u"更新に Synaptic を使用する"
-    View_and_Upgrade = u"表示・更新"
-    Hide_until_updates_available = u"入手可能な更新の非表示"
-    Quit_Apt_Notifier = u"Apt-Notifier を終了"
-    Apt_Notifier_Help = u"Apt-Notifier ヘルプ"
-    Synaptic_Help = u"Synaptic ヘルプ"
-    Apt_Notifier_Preferences = u"Apt Notifier 設定"
-
-elif locale == "nl":
     tooltip_0_updates_available = u"0 updates available"
     tooltip_1_new_update_available = u"1 new update available"
     tooltip_multiple_new_updates_available = u" new updates available"
@@ -165,25 +53,152 @@ elif locale == "nl":
     Synaptic_Help = u"Synaptic Help"
     Apt_Notifier_Preferences = u"Apt Notifier Preferences"
 
-elif locale == "sv":
-    tooltip_0_updates_available = u"0 uppdateringar tillgängliga"
-    tooltip_1_new_update_available = u"1 ny updatering tillgänglig"
-    tooltip_multiple_new_updates_available = u" nya uppdateringar tillgängliga"
-    popup_title = u"Updateringar"
-    popup_msg_1_new_update_available = u"Du har 1 ny uppdatering tillgänglig"
-    popup_msg_multiple_new_updates_available_begin = u"Du har "
-    popup_msg_multiple_new_updates_available_end = u" nya uppdatering tillgänglig"
-    Upgrade_using_Synaptic = u"Uppgradera med Synaptic"
-    View_and_Upgrade = u"Granska och Uppgradera"
-    Hide_until_updates_available = u"Göm tills uppdateringar är tillgängliga"
-    Quit_Apt_Notifier = u"Avsluta Apt-Notifier"
-    Apt_Notifier_Help = u"Apt-Notifier Hjälp"
-    Synaptic_Help = u"Synaptic Hjälp"
-    Apt_Notifier_Preferences = u"Apt Notifier Inställningar"
+    if locale == "ca":
+        tooltip_0_updates_available = u"No hi ha actualitzacions disponibles"
+        tooltip_1_new_update_available = u"1 actualització disponible"
+        tooltip_multiple_new_updates_available = u" noves actualitzacions disponibles"
+        popup_title = u"Actualitzacions"
+        popup_msg_1_new_update_available = u"Teniu 1 actualització disponible"
+        popup_msg_multiple_new_updates_available_begin = u"Teniu "
+        popup_msg_multiple_new_updates_available_end = u" noves actualitzacions disponibles"
+        Upgrade_using_Synaptic = u"Actualitza usant Synaptic"
+        View_and_Upgrade = u"Veure i actualitzar"
+        Hide_until_updates_available = u"Amagar fins que hi hagi actualitzacions disponibles"
+        Quit_Apt_Notifier = u"Surt d'Apt-Notifier"
+        Apt_Notifier_Help = u"Ajuda d'Apt-Notifier"
+        Synaptic_Help = u"Ajuda de Synaptic"
+        Apt_Notifier_Preferences = u"Preferències d'Apt Notifier"
 
-else:
-    pass
+    elif locale == "de":
+        tooltip_0_updates_available = u"0 Updates verfügbar"
+        tooltip_1_new_update_available = u"1 neues Update verfügbar"
+        tooltip_multiple_new_updates_available = u" neue Updates verfügbar"
+        popup_title = u"Updates"
+        popup_msg_1_new_update_available = u"Sie haben ein neues Update verfügbar"
+        popup_msg_multiple_new_updates_available_begin = u"Sie haben "
+        popup_msg_multiple_new_updates_available_end = u" neue Updates verfügbar"
+        Upgrade_using_Synaptic = u"Durch Synaptic aufrüsten"
+        View_and_Upgrade = u"Anschauen and aufrüsten"
+        Hide_until_updates_available = u"Verstercken bis Updates verfügbar"
+        Quit_Apt_Notifier = u"Apt-Notifier abbrechen "
+        Apt_Notifier_Help = u"Apt-Notifier Hilfe"
+        Synaptic_Help = u"Synaptic Hilfe"
+        Apt_Notifier_Preferences = u"Apt Notifier Einstellungen"
 
+    elif locale == "el":
+        tooltip_0_updates_available = u"0 updates available"
+        tooltip_1_new_update_available = u"1 new update available"
+        tooltip_multiple_new_updates_available = u" neue updates available"
+        popup_title = u"Updates"
+        popup_msg_1_new_update_available = u"You have 1 new update available"
+        popup_msg_multiple_new_updates_available_begin = u"You have "
+        popup_msg_multiple_new_updates_available_end = u" new updates available"
+        Upgrade_using_Synaptic = u"Upgrade using Synaptic"
+        View_and_Upgrade = u"View and Upgrade"
+        Hide_until_updates_available = u"Hide until updates available"
+        Quit_Apt_Notifier = u"Quit Apt-Notifier"
+        Apt_Notifier_Help = u"Apt-Notifier Help"
+        Synaptic_Help = u"Synaptic Help"
+        Apt_Notifier_Preferences = u"Apt Notifier Preferences"
+
+    elif locale == "es":
+        tooltip_0_updates_available = u"0 actualizaciones disponibles"
+        tooltip_1_new_update_available = u"1 nueva actualización disponible"
+        tooltip_multiple_new_updates_available = u" nuevas actualizaciones disponibles"
+        popup_title = u"Updates"
+        popup_msg_1_new_update_available = u"Tiene 1 nueva actualización disponible"
+        popup_msg_multiple_new_updates_available_begin = u"Tiene "
+        popup_msg_multiple_new_updates_available_end = u" nuevas actualizaciones disponibles"
+        Upgrade_using_Synaptic = u"Actualizar usando Synaptic"
+        View_and_Upgrade = u"Ver y Actualizar"
+        Hide_until_updates_available = u"Ocultar hasta que haya actualizaciones"
+        Quit_Apt_Notifier = u"Salir de Apt-Notifier"
+        Apt_Notifier_Help = u"Ayuda de Apt-Notifier"
+        Synaptic_Help = u"Ayuda de Synaptic"
+        Apt_Notifier_Preferences = u"Preferencias de Apt Notifier"
+
+    elif locale == "fr":
+        tooltip_0_updates_available = u"0 mises à jour disponibles"
+        tooltip_1_new_update_available = u"1 nouvelle mise à jour disponible"
+        tooltip_multiple_new_updates_available = u" nouvelles mises à jour disponibles"
+        popup_title = u"Mises à jour"
+        popup_msg_1_new_update_available = u"Vous avez une nouvelle mise à jour disponible"
+        popup_msg_multiple_new_updates_available_begin = u"Vous avez "
+        popup_msg_multiple_new_updates_available_end = u" nouvelles mises à jour disponibles"
+        Upgrade_using_Synaptic = u"Mettre à niveau avec Synaptic"
+        View_and_Upgrade = u"Voir et mettre à niveau"
+        Hide_until_updates_available = u"Cacher jusqu'à ce que des mises à niveau soient disponibles"
+        Quit_Apt_Notifier = u"Annuler Apt-Notifier"
+        Apt_Notifier_Help = u"Aide sur Apt-notifier"
+        Synaptic_Help = u"Aide sur Synaptic"
+        Apt_Notifier_Preferences = u"Préferences pour Apt Notifier"
+
+    elif locale == "it":
+        tooltip_0_updates_available = u"0 aggiornamenti disponibili"
+        tooltip_1_new_update_available = u"1 nuovo aggiornamento disponibile"
+        tooltip_multiple_new_updates_available = u" nuovi aggiornamenti disponibili"
+        popup_title = u"Aggiornamenti"
+        popup_msg_1_new_update_available = u"Hai 1 nuovo aggiornamento disponibile"
+        popup_msg_multiple_new_updates_available_begin = u"Hai "
+        popup_msg_multiple_new_updates_available_end = u" nuovi aggiornamenti disponibili"
+        Upgrade_using_Synaptic = u"Aggiornare tramite Synaptic"
+        View_and_Upgrade = u"Mostra e aggiorna"
+        Hide_until_updates_available = u"Nascondi finchè non hai aggiornamenti disponibili"
+        Quit_Apt_Notifier = u"Chiudi Apt-Notifier"
+        Apt_Notifier_Help = u"Aiuto su Apt-notifier"
+        Synaptic_Help = u"Aiuto su Synaptic"
+        Apt_Notifier_Preferences = u"Preferenze per Apt Notifier"
+
+    elif locale == "ja":
+        tooltip_0_updates_available = u"0 新たな更新はありません"
+        tooltip_1_new_update_available = u"1 つの新たな更新が入手可能です"
+        tooltip_multiple_new_updates_available = u"つの新たな更新が入手可能です"
+        popup_title = u"更新"
+        popup_msg_1_new_update_available = u"1 つの新たな更新が入手可能です"
+        popup_msg_multiple_new_updates_available_begin = u""
+        popup_msg_multiple_new_updates_available_end = u"つの新たな更新が入手可能です"
+        Upgrade_using_Synaptic = u"更新に Synaptic を使用する"
+        View_and_Upgrade = u"表示・更新"
+        Hide_until_updates_available = u"入手可能な更新の非表示"
+        Quit_Apt_Notifier = u"Apt-Notifier を終了"
+        Apt_Notifier_Help = u"Apt-Notifier ヘルプ"
+        Synaptic_Help = u"Synaptic ヘルプ"
+        Apt_Notifier_Preferences = u"Apt Notifier 設定"
+
+    elif locale == "nl":
+        tooltip_0_updates_available = u"0 updates available"
+        tooltip_1_new_update_available = u"1 new update available"
+        tooltip_multiple_new_updates_available = u" new updates available"
+        popup_title = u"Updates"
+        popup_msg_1_new_update_available = u"You have 1 new update available"
+        popup_msg_multiple_new_updates_available_begin = u"You have "
+        popup_msg_multiple_new_updates_available_end = u" new updates available"
+        Upgrade_using_Synaptic = u"Upgrade using Synaptic"
+        View_and_Upgrade = u"View and Upgrade"
+        Hide_until_updates_available = u"Hide until updates available"
+        Quit_Apt_Notifier = u"Quit Apt-Notifier"
+        Apt_Notifier_Help = u"Apt-Notifier Help"
+        Synaptic_Help = u"Synaptic Help"
+        Apt_Notifier_Preferences = u"Apt Notifier Preferences"
+
+    elif locale == "sv":
+        tooltip_0_updates_available = u"0 uppdateringar tillgängliga"
+        tooltip_1_new_update_available = u"1 ny updatering tillgänglig"
+        tooltip_multiple_new_updates_available = u" nya uppdateringar tillgängliga"
+        popup_title = u"Updateringar"
+        popup_msg_1_new_update_available = u"Du har 1 ny uppdatering tillgänglig"
+        popup_msg_multiple_new_updates_available_begin = u"Du har "
+        popup_msg_multiple_new_updates_available_end = u" nya uppdatering tillgänglig"
+        Upgrade_using_Synaptic = u"Uppgradera med Synaptic"
+        View_and_Upgrade = u"Granska och Uppgradera"
+        Hide_until_updates_available = u"Göm tills uppdateringar är tillgängliga"
+        Quit_Apt_Notifier = u"Avsluta Apt-Notifier"
+        Apt_Notifier_Help = u"Apt-Notifier Hjälp"
+        Synaptic_Help = u"Synaptic Hjälp"
+        Apt_Notifier_Preferences = u"Apt Notifier Inställningar"
+
+    else:
+        pass
 
 # Check for updates, using subprocess.Popen
 def check_updates():
@@ -1004,6 +1019,7 @@ def main():
     global quit_action    
     global Timer
     global initialize_aptnotifier_prefs
+    set_translations()
     initialize_aptnotifier_prefs()
     AptNotify = QtGui.QApplication(sys.argv)
     AptIcon = QtGui.QSystemTrayIcon()
