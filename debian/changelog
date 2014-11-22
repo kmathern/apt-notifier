@@ -1,3 +1,22 @@
+apt-notifier (1.1.3mcr120+2) mepis; urgency=low
+
+  * - apt-notifier.py changes -
+  * Added Catalan and Italian translations
+  * Remove "MX" branding if using MEPIS
+  * Add "MX" to terminal window title if using MX
+  * Added commands to close temporary files
+  * sleep 5 now immediately follows konsole calls
+  * remove the sleep 5 after the DoUpgrade call
+  * Set translation strings in set_translations function
+  *
+  * - apt-notifier (the startup script) -
+  * remove any previously created /tmp/tmp****** files
+  *
+  * - .desktop file changes -
+  * added Catalan, Dutch and Italian comments 
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Sat, 22 Nov 2014 11:18:38 -0500
+
 apt-notifier (1.1.3mcr120+1) mepis; urgency=medium
 
   * Fix for KDE in apt-notifier.py, restore to MEPIS CR.
