@@ -1,3 +1,10 @@
+apt-notifier (1.1.4mcr120+1) mepis; urgency=low
+
+  * Rebuild for MEPIS 12 CR:
+    - bump version because of numerous changes and to upgrade over MX version.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Sat, 22 Nov 2014 12:37:12 -0800
+
 apt-notifier (1.1.3mcr120+2) mepis; urgency=low
 
   * - apt-notifier.py changes -
