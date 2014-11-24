@@ -86,20 +86,20 @@ def set_translations():
         Apt_Notifier_Preferences = u"Apt Notifier Einstellungen"
 
     elif locale == "el":
-        tooltip_0_updates_available = u"0 updates available"
-        tooltip_1_new_update_available = u"1 new update available"
-        tooltip_multiple_new_updates_available = u" neue updates available"
-        popup_title = u"Updates"
-        popup_msg_1_new_update_available = u"You have 1 new update available"
-        popup_msg_multiple_new_updates_available_begin = u"You have "
-        popup_msg_multiple_new_updates_available_end = u" new updates available"
-        Upgrade_using_Synaptic = u"Upgrade using Synaptic"
-        View_and_Upgrade = u"View and Upgrade"
-        Hide_until_updates_available = u"Hide until updates available"
-        Quit_Apt_Notifier = u"Quit Apt-Notifier"
-        Apt_Notifier_Help = u"Apt-Notifier Help"
-        Synaptic_Help = u"Synaptic Help"
-        Apt_Notifier_Preferences = u"Apt Notifier Preferences"
+        tooltip_0_updates_available = u"0 διαθέσιμες ενημερώσεις"
+        tooltip_1_new_update_available = u"0 διαθέσιμες ενημερώσεις"
+        tooltip_multiple_new_updates_available = u" νέες διαθέσιμες ενημερώσεις"
+        popup_title = u"Ενημερώσεις"
+        popup_msg_1_new_update_available = u"Έχετε 1 νέα διαθέσιμη ενημέρωση"
+        popup_msg_multiple_new_updates_available_begin = u"Έχετε "
+        popup_msg_multiple_new_updates_available_end = u" νέες διαθέσιμες ενημερώσεις"
+        Upgrade_using_Synaptic = u"Αναβάθμιση χρησιμοποιώντας το Synaptic"
+        View_and_Upgrade = u"Προβολή και Αναβάθμιση"
+        Hide_until_updates_available = u"Απόκρυψη μέχρι διαθέσιμες ενημερώσεις"
+        Quit_Apt_Notifier = u"Κλείστε το Apt-Notifier"
+        Apt_Notifier_Help = u"Apt-Notifier Βοήθεια"
+        Synaptic_Help = u"Synaptic Βοήθεια"
+        Apt_Notifier_Preferences = u"Apt Notifier Προτιμήσεις"
 
     elif locale == "es":
         tooltip_0_updates_available = u"0 actualizaciones disponibles"
@@ -311,16 +311,16 @@ def viewandupgrade():
              done2="'Dieses Shellfenster darf jetzt geschlossen werden '" 
              done3="'(drücken Sie eine beliebige Taste zu schliessen)'" ;;
 
-      el)    window_title="MX Apt Notifier--View and Upgrade, previewing: apt-get "
-             use_apt_get_dash_dash_yes="use apt-get --yes option for "
-             auto_close_term_window1="automatically close terminal window when apt-get "
-             auto_close_term_window2=" complete"
-             switch_to1="switch to 'apt-get "
+      el)    window_title="MX Apt Notifier--Προβολή και Αναβάθμιση, προεπισκόπηση: apt-get "
+             use_apt_get_dash_dash_yes="χρησιμοποιήσετε την επιλογή του apt-get --yes option για την "
+             auto_close_term_window1="Να κλείσει αυτόματα το παράθυρο τερματικού όταν το apt-get "
+             auto_close_term_window2=" έχει ολοκληρωθεί"
+             switch_to1="αλλαγή σε 'apt-get "
              switch_to2=""
              done0="" 
-             done1=' complete (or was canceled)"' 
-             done2="'this terminal window can now be closed '" 
-             done3="'(press any key to close)'" ;;
+             done1=' ολοκληρώθηκε (ή ακυρώθηκε)"' 
+             done2="'Αυτό το παράθυρο τερματικού μπορεί να κλείσει '" 
+             done3="'(πατήστε οποιοδήποτε πλήκτρο να κλείσει)'" ;;
 
       es)    window_title="MX Apt Notifier--Ver y Actualizar, vista previa: apt-get "
              use_apt_get_dash_dash_yes="usar la opción --yes de apt-get para "
@@ -760,13 +760,13 @@ def aptnotifier_prefs():
              use_apt_get_dash_dash_yes="Option --yes von apt-get's benutzen bei upgrade/dist-upgrade"
              auto_close_term_window_when_complete="Shellfenster automatiisch schliessen nach Ende von apt-get upgrade/dist-upgrade" ;;
 
-         el) window_title="MX Apt Notifier preferences"
-             frame_upgrade_behaviour="  upgrade behaviour   (also affects notification count)   "
-             frame_left_click_behaviour="  left-click behaviour   (when updates are available)   "
-             left_click_Synaptic="opens Synaptic "
-             left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
-             use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
-             auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+         el) window_title="MX Apt Notifier προτιμήσεις"
+             frame_upgrade_behaviour="  αναβάθμιση (επηρεάζει επίσης καταμέτρηση κοινοποίηση)   "
+             frame_left_click_behaviour="  αριστερό κλικ (όταν υπάρχουν διαθέσιμες ενημερώσεις)   "
+             left_click_Synaptic="ανοίγει το  Synaptic "
+             left_click_ViewandUpgrade='ανοίγει το παράθυρο "Προβολή και Αναβάθμιση" του MX Apt Notifier'
+             use_apt_get_dash_dash_yes="χρησιμοποιήσετε την επιλογή του apt-get --yes option για την αναβάθμιση"
+             auto_close_term_window_when_complete="Να κλείσει αυτόματα το παράθυρο τερματικού όταν το apt-get upgrade/dist-upgrade έχει ολοκληρωθεί" ;;
 
          es) window_title="MX preferencias de Apt Notifier"
              frame_upgrade_behaviour="  comportamiento de actualización (también afecta la cuenta de notificaciones)   "
