@@ -1,3 +1,9 @@
+apt-notifier (1.1.4mcr120+2) mepis; urgency=low
+
+  * Greek localizations updated.
+
+ -- Steven Pusser (Stevo) <maintainer@mepiscommunity.org>  Thu, 27 Nov 2014 19:28:42 -0800
+
 apt-notifier (1.1.4mcr120+1) mepis; urgency=low
 
   * Rebuild for MEPIS 12 CR:
