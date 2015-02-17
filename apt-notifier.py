@@ -399,11 +399,12 @@ def viewandupgrade():
       case $1 in
         0)
         BP="1"
+        chmod +x $TMP/upgradeScript
         TermXOffset="$(xwininfo -root|awk '/Width/{print $2/4}')"
         TermYOffset="$(xwininfo -root|awk '/Height/{print $2/4}')"
-        Geometry="--geometry=80x25+"$TermXOffset"+"$TermYOffset
-        Icon="--icon=/usr/share/icons/mnotify-some.png"
-        Title="--title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifer: apt-get "$UpgradeType"'" 
+        G="--geometry=80x25+"$TermXOffset"+"$TermYOffset
+        I="--icon=/usr/share/icons/mnotify-some.png"
+        T="--title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifer: apt-get "$UpgradeType"'" 
         if (xprop -root | grep -q -i kde)
           then
 
@@ -422,24 +423,19 @@ def viewandupgrade():
 
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
 
-                             konsole) kdesu -c "konsole \
-                                      -e bash $TMP/upgradeScript"
+                             konsole) kdesu -c "konsole -e $TMP/upgradeScript"
                                       sleep 5
                                       ;;
 
-              xfce4-terminal.wrapper) kdesu -c "xfce4-terminal \
-                                      $Geometry $Icon $Title \
-                                      -e 'bash $TMP/upgradeScript'"
+              xfce4-terminal.wrapper) kdesu -c "xfce4-terminal$G$I$T -e $TMP/upgradeScript"
                                       ;;
 
                                xterm) if [ -e /usr/bin/konsole ]
                                         then
-                                          kdesu -c "konsole \
-                                          -e bash $TMP/upgradeScript"
+                                          kdesu -c "konsole -e $TMP/upgradeScript"
                                           sleep 5
                                         else
-                                          kdesu -c "xterm \
-                                          -e bash $TMP/upgradeScript"
+                                          kdesu -c "xterm -e $TMP/upgradeScript"
                                       fi
                                       ;;
 
@@ -463,24 +459,18 @@ def viewandupgrade():
 
             case $(readlink -e /usr/bin/x-terminal-emulator | xargs basename) in
 
-                             konsole) su-to-root -X -c "konsole \
-                                      -e  bash $TMP/upgradeScript"
+                             konsole) su-to-root -X -c "konsole -e $TMP/upgradeScript"
                                       sleep 5
                                       ;;
 
-              xfce4-terminal.wrapper) su-to-root -X -c "xfce4-terminal \
-                                      $Geometry $Icon $Title \
-                                      -e 'bash $TMP/upgradeScript'"
+              xfce4-terminal.wrapper) su-to-root -X -c "xfce4-terminal$G$I$T -e $TMP/upgradeScript"
                                       ;;
 
                                xterm) if [ -e /usr/bin/xfce4-terminal ]
                                         then
-                                          su-to-root -X -c "xfce4-terminal \
-                                          $Geometry $Icon $Title \
-                                          -e 'bash $TMP/upgradeScript'"
+                                          su-to-root -X -c "xfce4-terminal -e $TMP/upgradeScript"
                                         else
-                                          su-to-root -X -c "xterm \
-                                          -e  bash $TMP/upgradeScript"
+                                          su-to-root -X -c "xterm -e $TMP/upgradeScript"
                                       fi
                                       ;;
 
