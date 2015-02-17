@@ -984,7 +984,7 @@ def add_apt_notifier_help_action():
     apt_notifier_help_action.triggered.connect(open_apt_notifier_help)
     
 def open_apt_notifier_help():
-    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/doc_mx/mxapps.html#notify'],shell=True)
+    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual_mx15/mxum.html#notify'],shell=True)
     
 def add_synaptic_help_action():
     ActionsMenu.addSeparator()
@@ -992,7 +992,7 @@ def add_synaptic_help_action():
     synaptic_help_action.triggered.connect(open_synaptic_help)
     
 def open_synaptic_help():
-    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/doc_mx/synaptic.html'],shell=True)
+    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual_mx15/mxum.html#toc-Subsection-5.3'],shell=True)
 
 def add_aptnotifier_prefs_action():
     ActionsMenu.addSeparator()
