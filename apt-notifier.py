@@ -402,9 +402,9 @@ def viewandupgrade():
         chmod +x $TMP/upgradeScript
         TermXOffset="$(xwininfo -root|awk '/Width/{print $2/4}')"
         TermYOffset="$(xwininfo -root|awk '/Height/{print $2/4}')"
-        G="--geometry=80x25+"$TermXOffset"+"$TermYOffset
-        I="--icon=/usr/share/icons/mnotify-some.png"
-        T="--title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifer: apt-get "$UpgradeType"'" 
+        G=" --geometry=80x25+"$TermXOffset"+"$TermYOffset
+        I=" --icon=/usr/share/icons/mnotify-some.png"
+        T=" --title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifer: apt-get "$UpgradeType"'" 
         if (xprop -root | grep -q -i kde)
           then
 
@@ -468,7 +468,7 @@ def viewandupgrade():
 
                                xterm) if [ -e /usr/bin/xfce4-terminal ]
                                         then
-                                          su-to-root -X -c "xfce4-terminal -e $TMP/upgradeScript"
+                                          su-to-root -X -c "xfce4-terminal$G$I$T -e $TMP/upgradeScript"
                                         else
                                           su-to-root -X -c "xterm -e $TMP/upgradeScript"
                                       fi
