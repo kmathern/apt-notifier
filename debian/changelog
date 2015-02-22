@@ -1,3 +1,12 @@
+apt-notifier (1.1.4mcr120+3) mepis; urgency=low
+
+  * translations added to apt-notifier-autostart-xdg.desktop
+  * translations added to apt-notifier-autostart.desktop
+  * modify commands that open gksu and kdesu dialogs
+  * update apt-notifier & synaptic help links
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Fri, 20 Feb 2015 19:58:12 -0500
+
 apt-notifier (1.1.4mcr120+2) mepis; urgency=low
 
   * Greek localizations updated.
