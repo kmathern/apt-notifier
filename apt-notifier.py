@@ -984,7 +984,7 @@ def add_apt_notifier_help_action():
     apt_notifier_help_action.triggered.connect(open_apt_notifier_help)
     
 def open_apt_notifier_help():
-    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual_mx15/mxum.html#notify'],shell=True)
+    subprocess.Popen(['xdg-open http://mepiscommunity.org/doc_mx/aptnotifier.html'],shell=True)
     
 def add_synaptic_help_action():
     ActionsMenu.addSeparator()
