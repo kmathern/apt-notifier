@@ -592,7 +592,7 @@ def viewandupgrade():
         echo "#!/bin/bash"> "$TMP"/upgradeScript
         echo "echo 'apt-get '"$UpgradeType>> "$TMP"/upgradeScript
         echo 'SynapticPins=$(mktemp /etc/apt/preferences.d/synaptic-XXXXXX-pins)'>> "$TMP"/upgradeScript
-        echo 'ln -sf /var/lib/synaptic/preferences "$SynapticPins" 2>/dev/null'>> "$TMP"/upgradeScript
+        echo 'if [ -e /var/lib/synaptic/preferences ]; then ln -sf /var/lib/synaptic/preferences "$SynapticPins" 2>/dev/null; fi'>> "$TMP"/upgradeScript
         if [ "$UpgradeAssumeYes" = "true" ];
           then
             echo "apt-get -q --assume-yes "$UpgradeType>> "$TMP"/upgradeScript
