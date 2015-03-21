@@ -1,3 +1,9 @@
+apt-notifier (1.1.4mcr120+4) mepis; urgency=low
+
+  * update apt-notifier help link
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Fri, 20 Mar 2015 19:21:41 -0400
+
 apt-notifier (1.1.4mcr120+3) mepis; urgency=low
 
   * Rebuild for MEPIS 12 CR:
