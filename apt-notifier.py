@@ -984,7 +984,14 @@ def add_apt_notifier_help_action():
     apt_notifier_help_action.triggered.connect(open_apt_notifier_help)
     
 def open_apt_notifier_help():
-    subprocess.Popen(['xdg-open http://mepiscommunity.org/doc_mx/aptnotifier.html'],shell=True)
+    """ check if mx-viewer is installed, if it is use it to display help, otherwise use xdg-open """
+    command_string = "test -e /usr/bin/mx-viewer"
+    exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
+    if exit_state == 0:
+        subprocess.Popen(['mx-viewer http://mepiscommunity.org/doc_mx/aptnotifier.html'],shell=True)
+    else:
+        subprocess.Popen(['xdg-open  http://mepiscommunity.org/doc_mx/aptnotifier.html'],shell=True) 
+
     
 def add_synaptic_help_action():
     ActionsMenu.addSeparator()
@@ -992,7 +999,13 @@ def add_synaptic_help_action():
     synaptic_help_action.triggered.connect(open_synaptic_help)
     
 def open_synaptic_help():
-    subprocess.Popen(['xdg-open http://www.mepiscommunity.org/user_manual_mx15/mxum.html#toc-Subsection-5.3'],shell=True)
+    """ check if mx-viewer is installed, if it is use it to display help, otherwise use xdg-open """
+    command_string = "test -e /usr/bin/mx-viewer"
+    exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
+    if exit_state == 0:
+        subprocess.Popen(['mx-viewer http://www.mepiscommunity.org/user_manual_mx15/mxum.html#toc-Subsection-5.3'],shell=True)
+    else:
+        subprocess.Popen(['xdg-open  http://www.mepiscommunity.org/user_manual_mx15/mxum.html#toc-Subsection-5.3'],shell=True)
 
 def add_aptnotifier_prefs_action():
     ActionsMenu.addSeparator()
