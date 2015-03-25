@@ -1,3 +1,9 @@
+apt-notifier (1.1.4mcr120+5) mepis; urgency=low
+
+  * Display help in mx-viewer if it's installed
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Wed, 25 Mar 2015 08:43:36 -0400
+
 apt-notifier (1.1.4mcr120+4) mepis; urgency=low
 
   * update apt-notifier help link
