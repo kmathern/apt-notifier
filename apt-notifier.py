@@ -181,6 +181,22 @@ def set_translations():
         Synaptic_Help = u"Synaptic Help"
         Apt_Notifier_Preferences = u"Apt Notifier Preferences"
 
+    elif locale == "pl":
+        tooltip_0_updates_available = u"0 Aktualizacje są dostępne"
+        tooltip_1_new_update_available = u"1 Aktualizacja dostępna"
+        tooltip_multiple_new_updates_available = u" Dostępne nowe aktualizacje"
+        popup_title = u"Aktualizacje"
+        popup_msg_1_new_update_available = u"Dostępna jest nowa aktualizacja"
+        popup_msg_multiple_new_updates_available_begin = u"Masz dostępnych "
+        popup_msg_multiple_new_updates_available_end = u" nowych aktualizacji"
+        Upgrade_using_Synaptic = u"Aktualizuj korzystając z Synaptic"
+        View_and_Upgrade = u"Przeglądaj i Aktualizować"
+        Hide_until_updates_available = u"Ukryj aż będą dostępne aktualizacje"
+        Quit_Apt_Notifier = u"Wyjdź z Apt-Notifier"
+        Apt_Notifier_Help = u"Pomoc Apt-Notifier"
+        Synaptic_Help = u"Pomoc Synaptic"
+        Apt_Notifier_Preferences = u"Apt Notifier Ustawienia"
+
     elif locale == "sv":
         tooltip_0_updates_available = u"0 uppdateringar tillgängliga"
         tooltip_1_new_update_available = u"1 ny updatering tillgänglig"
@@ -376,6 +392,17 @@ def viewandupgrade():
              done1=' complete (or was canceled)"' 
              done2="'this terminal window can now be closed '" 
              done3="'(press any key to close)'" ;;
+
+      pl)    window_title="MX Apt Notifier--Przeglądaj i Aktualizować, podglądu: apt-get "
+             use_apt_get_dash_dash_yes="stosować apt-get --yes opcję  dla "
+             auto_close_term_window1="zostały automatycznie zamknięte okno terminalu przy apt-get "
+             auto_close_term_window2=" gotowy"
+             switch_to1="Przełącz na 'apt-get "
+             switch_to2=""
+             done0="Komenda " 
+             done1=' została wykonana (lub przerwana)"' 
+             done2="'Okno to można zamknąć teraz '" 
+             done3="'(naciśnij dowolny klawisz, aby zamknąć)'" ;;
 
       sv)    window_title="MX Apt Notifier--Granska och Uppgradera, förhandsgranskning: apt-get "
              use_apt_get_dash_dash_yes="använd apt-get's --yes möjlighet för "
@@ -797,6 +824,14 @@ def aptnotifier_prefs():
              left_click_ViewandUpgrade='opens MX Apt Notifier "View and Upgrade" window'
              use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
              auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
+
+         pl) window_title="MX Apt Notifier Ustawienia"
+             frame_upgrade_behaviour="  zachowanie aktualizacji   (również wpływ na liczbę powiadomień)   "
+             frame_left_click_behaviour="  Zachowanie lewego przycisku myszy   (gdy dostępne są nowe aktualizacje)   "
+             left_click_Synaptic="otwiera Synaptic "
+             left_click_ViewandUpgrade='otwiera MX Apt Notifier "Przeglądaj i Aktualizować" okno'
+             use_apt_get_dash_dash_yes="stosować apt-get's --yes opcję  dla upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="zostały automatycznie zamknięte okno terminalu przy upgrade/dist-upgrade gotowy" ;;
 
          sv) window_title="MX Apt Notifier inställningar"
              frame_upgrade_behaviour="  uppgraderingsbeteende (påverkar också antalet i meddelandena)   "
