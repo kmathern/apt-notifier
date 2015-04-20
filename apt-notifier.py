@@ -129,7 +129,7 @@ def set_translations():
         View_and_Upgrade = u"Voir et mettre à niveau"
         Hide_until_updates_available = u"Cacher jusqu'à ce que des mises à niveau soient disponibles"
         Quit_Apt_Notifier = u"Annuler Apt-Notifier"
-        Apt_Notifier_Help = u"Aide sur Apt-notifier"
+        Apt_Notifier_Help = u"Aide sur Apt-Notifier"
         Synaptic_Help = u"Aide sur Synaptic"
         Apt_Notifier_Preferences = u"Préferences pour Apt Notifier"
 
@@ -145,7 +145,7 @@ def set_translations():
         View_and_Upgrade = u"Mostra e aggiorna"
         Hide_until_updates_available = u"Nascondi finchè non hai aggiornamenti disponibili"
         Quit_Apt_Notifier = u"Chiudi Apt-Notifier"
-        Apt_Notifier_Help = u"Aiuto su Apt-notifier"
+        Apt_Notifier_Help = u"Aiuto su Apt-Notifier"
         Synaptic_Help = u"Aiuto su Synaptic"
         Apt_Notifier_Preferences = u"Preferenze per Apt Notifier"
 
