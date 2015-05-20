@@ -37,6 +37,8 @@ def set_translations():
     global Apt_Notifier_Help
     global Synaptic_Help
     global Apt_Notifier_Preferences    
+    global ignoreClick
+    ignoreClick = '0'
 
     tooltip_0_updates_available = u"0 updates available"
     tooltip_1_new_update_available = u"1 new update available"
@@ -945,18 +947,42 @@ EOF
     script_file.close()
     check_updates()
 
+def re_enable_click():
+    global ignoreClick
+    ignoreClick = '0'
+
+def start_synaptic0():
+    global ignoreClick
+    global Timer
+    if ignoreClick != '1':
+        start_synaptic()    
+        ignoreClick = '1'
+        Timer.singleShot(50, re_enable_click)
+    else:
+        pass
+
+def viewandupgrade0():
+    global ignoreClick
+    global Timer
+    if ignoreClick != '1':
+        viewandupgrade()    
+        ignoreClick = '1'
+        Timer.singleShot(50, re_enable_click)
+    else:
+        pass
+
 # Define the command to run when left clicking on the Tray Icon
 def left_click():
     if text.startswith( "0" ):
-        start_synaptic()
+        start_synaptic0()
     else:
         """Test ~/.config/apt-notifierrc for LeftClickViewAndUpgrade"""
         command_string = "cat " + rc_file_name + " | grep -q LeftClick=ViewAndUpgrade"
         exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
         if exit_state == 0:
-            viewandupgrade()
+            viewandupgrade0()
         else:
-            start_synaptic()
+            start_synaptic0()
 
 # Define the action when left clicking on Tray Icon
 def left_click_activated(reason):
@@ -989,10 +1015,10 @@ def add_rightclick_actions():
     exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
     if exit_state == 0:
         process_updates_action = ActionsMenu.addAction(Upgrade_using_Synaptic)
-        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), start_synaptic)
+        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), start_synaptic0)
     else:
         process_updates_action = ActionsMenu.addAction(View_and_Upgrade)
-        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), viewandupgrade)
+        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), viewandupgrade0)
     add_apt_notifier_help_action()
     add_synaptic_help_action()
     add_quit_action()
