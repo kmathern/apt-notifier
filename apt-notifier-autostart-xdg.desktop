@@ -10,6 +10,7 @@ Comment[fr]=Applet pour afficher les mises à jour d'apt
 Comment[it]=
 Comment[ja]=
 Comment[nl]=Een applet om apt updates weer te geven
+Comment[pl]=Aplet do pokaż apt aktualizacje
 Comment[sv]=Ett miniprogram för att visa apt-uppdateringar
 Exec=/usr/bin/apt-notifier
 GenericName[en_US]=Apt Update Notification

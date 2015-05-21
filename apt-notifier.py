@@ -37,6 +37,8 @@ def set_translations():
     global Apt_Notifier_Help
     global Synaptic_Help
     global Apt_Notifier_Preferences    
+    global ignoreClick
+    ignoreClick = '0'
 
     tooltip_0_updates_available = u"0 updates available"
     tooltip_1_new_update_available = u"1 new update available"
@@ -129,7 +131,7 @@ def set_translations():
         View_and_Upgrade = u"Voir et mettre à niveau"
         Hide_until_updates_available = u"Cacher jusqu'à ce que des mises à niveau soient disponibles"
         Quit_Apt_Notifier = u"Annuler Apt-Notifier"
-        Apt_Notifier_Help = u"Aide sur Apt-notifier"
+        Apt_Notifier_Help = u"Aide sur Apt-Notifier"
         Synaptic_Help = u"Aide sur Synaptic"
         Apt_Notifier_Preferences = u"Préferences pour Apt Notifier"
 
@@ -145,7 +147,7 @@ def set_translations():
         View_and_Upgrade = u"Mostra e aggiorna"
         Hide_until_updates_available = u"Nascondi finchè non hai aggiornamenti disponibili"
         Quit_Apt_Notifier = u"Chiudi Apt-Notifier"
-        Apt_Notifier_Help = u"Aiuto su Apt-notifier"
+        Apt_Notifier_Help = u"Aiuto su Apt-Notifier"
         Synaptic_Help = u"Aiuto su Synaptic"
         Apt_Notifier_Preferences = u"Preferenze per Apt Notifier"
 
@@ -180,6 +182,22 @@ def set_translations():
         Apt_Notifier_Help = u"Apt-Notifier Help"
         Synaptic_Help = u"Synaptic Help"
         Apt_Notifier_Preferences = u"Apt Notifier Preferences"
+
+    elif locale == "pl":
+        tooltip_0_updates_available = u"0 Aktualizacje są dostępne"
+        tooltip_1_new_update_available = u"1 Aktualizacja dostępna"
+        tooltip_multiple_new_updates_available = u" Dostępne nowe aktualizacje"
+        popup_title = u"Aktualizacje"
+        popup_msg_1_new_update_available = u"Dostępna jest nowa aktualizacja"
+        popup_msg_multiple_new_updates_available_begin = u"Masz dostępnych "
+        popup_msg_multiple_new_updates_available_end = u" nowych aktualizacji"
+        Upgrade_using_Synaptic = u"Aktualizuj korzystając z Synaptic"
+        View_and_Upgrade = u"Przeglądaj i Aktualizować"
+        Hide_until_updates_available = u"Ukryj aż będą dostępne aktualizacje"
+        Quit_Apt_Notifier = u"Wyjdź z Apt-Notifier"
+        Apt_Notifier_Help = u"Pomoc Apt-Notifier"
+        Synaptic_Help = u"Pomoc Synaptic"
+        Apt_Notifier_Preferences = u"Apt Notifier Ustawienia"
 
     elif locale == "sv":
         tooltip_0_updates_available = u"0 uppdateringar tillgängliga"
@@ -377,6 +395,17 @@ def viewandupgrade():
              done2="'this terminal window can now be closed '" 
              done3="'(press any key to close)'" ;;
 
+      pl)    window_title="MX Apt Notifier--Przeglądaj i Aktualizować, podglądu: apt-get "
+             use_apt_get_dash_dash_yes="stosować apt-get --yes opcję  dla "
+             auto_close_term_window1="zostały automatycznie zamknięte okno terminalu przy apt-get "
+             auto_close_term_window2=" gotowy"
+             switch_to1="Przełącz na 'apt-get "
+             switch_to2=""
+             done0="Komenda " 
+             done1=' została wykonana (lub przerwana)"' 
+             done2="'Okno to można zamknąć teraz '" 
+             done3="'(naciśnij dowolny klawisz, aby zamknąć)'" ;;
+
       sv)    window_title="MX Apt Notifier--Granska och Uppgradera, förhandsgranskning: apt-get "
              use_apt_get_dash_dash_yes="använd apt-get's --yes möjlighet för "
              auto_close_term_window1="stäng automatiskt terminalfönstret när apt-get "
@@ -404,7 +433,7 @@ def viewandupgrade():
         TermYOffset="$(xwininfo -root|awk '/Height/{print $2/4}')"
         G=" --geometry=80x25+"$TermXOffset"+"$TermYOffset
         I=" --icon=mnotify-some"
-        T=" --title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifer: apt-get "$UpgradeType"'"
+        T=" --title='""$(grep -o MX-[1-9][0-9] /etc/issue|cut -c1-2)"" apt-notifier: apt-get "$UpgradeType"'"
         if (xprop -root | grep -q -i kde)
           then
 
@@ -798,6 +827,14 @@ def aptnotifier_prefs():
              use_apt_get_dash_dash_yes="use apt-get's --yes option for upgrade/dist-upgrade"
              auto_close_term_window_when_complete="automatically close terminal window when apt-get upgrade/dist-upgrade complete" ;;
 
+         pl) window_title="MX Apt Notifier Ustawienia"
+             frame_upgrade_behaviour="  zachowanie aktualizacji   (również wpływ na liczbę powiadomień)   "
+             frame_left_click_behaviour="  Zachowanie lewego przycisku myszy   (gdy dostępne są nowe aktualizacje)   "
+             left_click_Synaptic="otwiera Synaptic "
+             left_click_ViewandUpgrade='otwiera MX Apt Notifier "Przeglądaj i Aktualizować" okno'
+             use_apt_get_dash_dash_yes="stosować apt-get's --yes opcję  dla upgrade/dist-upgrade"
+             auto_close_term_window_when_complete="zostały automatycznie zamknięte okno terminalu przy upgrade/dist-upgrade gotowy" ;;
+
          sv) window_title="MX Apt Notifier inställningar"
              frame_upgrade_behaviour="  uppgraderingsbeteende (påverkar också antalet i meddelandena)   "
              frame_left_click_behaviour="  vänster-klicks beteende (när uppdateringar är tillgängliga)   "
@@ -910,18 +947,42 @@ EOF
     script_file.close()
     check_updates()
 
+def re_enable_click():
+    global ignoreClick
+    ignoreClick = '0'
+
+def start_synaptic0():
+    global ignoreClick
+    global Timer
+    if ignoreClick != '1':
+        start_synaptic()    
+        ignoreClick = '1'
+        Timer.singleShot(50, re_enable_click)
+    else:
+        pass
+
+def viewandupgrade0():
+    global ignoreClick
+    global Timer
+    if ignoreClick != '1':
+        viewandupgrade()    
+        ignoreClick = '1'
+        Timer.singleShot(50, re_enable_click)
+    else:
+        pass
+
 # Define the command to run when left clicking on the Tray Icon
 def left_click():
     if text.startswith( "0" ):
-        start_synaptic()
+        start_synaptic0()
     else:
         """Test ~/.config/apt-notifierrc for LeftClickViewAndUpgrade"""
         command_string = "cat " + rc_file_name + " | grep -q LeftClick=ViewAndUpgrade"
         exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
         if exit_state == 0:
-            viewandupgrade()
+            viewandupgrade0()
         else:
-            start_synaptic()
+            start_synaptic0()
 
 # Define the action when left clicking on Tray Icon
 def left_click_activated(reason):
@@ -954,10 +1015,10 @@ def add_rightclick_actions():
     exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
     if exit_state == 0:
         process_updates_action = ActionsMenu.addAction(Upgrade_using_Synaptic)
-        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), start_synaptic)
+        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), start_synaptic0)
     else:
         process_updates_action = ActionsMenu.addAction(View_and_Upgrade)
-        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), viewandupgrade)
+        AptNotify.connect(process_updates_action, QtCore.SIGNAL("triggered()"), viewandupgrade0)
     add_apt_notifier_help_action()
     add_synaptic_help_action()
     add_quit_action()

@@ -1,3 +1,20 @@
+apt-notifier (1.1.4mcr120+7) mepis; urgency=low
+
+  * Start a singleshot timer (50 msec.) after closing Synaptic or the 'View and 
+    Upgrade' window. While the singleshot timer is running, don't process clicks
+    to start Synaptic, or to open the 'View and Upgrade' window. This flushes out
+    stored/errant clicks that occurred while Synaptic or the 'View and Upgrade'
+    window were open.
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Thu, 21 May 2015 08:39:33 -0400
+
+apt-notifier (1.1.4mcr120+6) mepis; urgency=low
+
+  * Added Polish translations
+  * Corrected typos
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Mon, 20 Apr 2015 22:50:56 -0400
+
 apt-notifier (1.1.4mcr120+5) mepis; urgency=low
 
   * Display help in mx-viewer if it's installed
