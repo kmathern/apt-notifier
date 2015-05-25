@@ -551,7 +551,7 @@ def viewandupgrade():
         #remove Synaptic pinned packages from "$TMP"/upgrades, so they don't get displayed in the 'View and Upgrade' window -- new method
         for i in $(grep -A1 Package: /var/lib/synaptic/preferences | sed 's/Package: //; s/Pin: version /@/; /--/d' | awk 'ORS=" "' | sed 's/ @/_/g');\
           do \
-            j="$(echo $i | sed 's/_/ /' | awk '{print $1" ("$2" =>"}')";\
+            j="$(echo $i | sed 's/_/ /' | sed 's/[0-9]*[:]//' | awk '{print $1" ("$2" =>"}')";\
             sed -i '/'"$j"'/d' "$TMP"/upgrades 2>/dev/null;\
           done
 
