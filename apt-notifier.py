@@ -1049,9 +1049,9 @@ def open_apt_notifier_help():
     command_string = "test -e /usr/bin/mx-viewer"
     exit_state = subprocess.call([command_string], shell=True, stdout=subprocess.PIPE)
     if exit_state == 0:
-        subprocess.Popen(['mx-viewer http://mepiscommunity.org/doc_mx/aptnotifier.html'],shell=True)
+        subprocess.Popen(['mx-viewer http://mepiscommunity.org/wiki/help-files/help-mx-apt-notifier'],shell=True)
     else:
-        subprocess.Popen(['xdg-open  http://mepiscommunity.org/doc_mx/aptnotifier.html'],shell=True) 
+        subprocess.Popen(['xdg-open  http://mepiscommunity.org/wiki/help-files/help-mx-apt-notifier'],shell=True) 
 
     
 def add_synaptic_help_action():
