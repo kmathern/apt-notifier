@@ -1,3 +1,9 @@
+apt-notifier (1.1.4mcr120+9) mepis; urgency=low
+
+  * update apt-notifier help link
+
+ -- Kent Mathern <maintainer@mepiscommunity.org>  Wed, 03 Jun 2015 18:37:08 -0400
+
 apt-notifier (1.1.4mcr120+8) mepis; urgency=low
 
   * Don't show Synaptic pinned packages that include an epoch in their version
