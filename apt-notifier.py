@@ -468,7 +468,7 @@ def viewandupgrade():
                                       fi
                                       ;;
 
-                                   *) :
+                                   *) kdesu -c "x-terminal-emulator -e $TMP/upgradeScript"
                                       ;;
             esac
 
@@ -503,7 +503,7 @@ def viewandupgrade():
                                       fi
                                       ;;
 
-                                   *) :
+                                   *) su-to-root -X -c "x-terminal-emulator -e $TMP/upgradeScript"
                                       ;;
 
             esac
