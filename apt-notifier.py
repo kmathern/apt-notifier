@@ -235,7 +235,7 @@ def check_updates():
             #/var/lib/synaptic/preferences is a non-zero size file, which means there are packages pinned in Synaptic. 
             #Remove from the sorted_list_of_upgrades, packages that are pinned in Synaptic, and then get a count of remaining.
             
-            sorted_list_of_upgrades | grep -vx $(grep 'Package:' /var/lib/synaptic/preferences | awk {'print "-e " $2'}) | wc -l
+            sorted_list_of_upgrades | grep -vx $(grep 'Package:' /var/lib/synaptic/preferences 2>/dev/null | awk {'print "-e " $2'}) | wc -l
         
         else 
             #/var/lib/synaptic/preferences is either a zero byte file, meaning packages were pinned in Synaptic at some time in 
@@ -549,7 +549,7 @@ def viewandupgrade():
         #for i in $(grep ^Package: /var/lib/synaptic/preferences 2>/dev/null | awk '{print $2}' 2>/dev/null); do sed -i '/'$i' (.*=>.*)/d' "$TMP"/upgrades 2>/dev/null; done
         
         #remove Synaptic pinned packages from "$TMP"/upgrades, so they don't get displayed in the 'View and Upgrade' window -- new method
-        for i in $(grep -A1 Package: /var/lib/synaptic/preferences | sed 's/Package: //; s/Pin: version /@/; /--/d' | awk 'ORS=" "' | sed 's/ @/_/g');\
+        for i in $(grep -A1 Package: /var/lib/synaptic/preferences 2>/dev/null | sed 's/Package: //; s/Pin: version /@/; /--/d' | awk 'ORS=" "' | sed 's/ @/_/g');\
           do \
             j="$(echo $i | sed 's/_/ /' | sed 's/[0-9]*[:]//' | awk '{print $1" ("$2" =>"}')";\
             sed -i '/'"$j"'/d' "$TMP"/upgrades 2>/dev/null;\
