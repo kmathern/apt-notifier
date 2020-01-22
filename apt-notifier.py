@@ -1507,6 +1507,8 @@ def add_rightclick_actions():
     add_aptnotifier_prefs_action()
     add_about_action()
     add_quit_action()
+    command_string = "deartifact-xfce-systray-icons .05 &"
+    subprocess.call([command_string], shell=True)               
 
 def add_hide_action():
     ActionsMenu.clear()
@@ -1531,6 +1533,8 @@ def add_hide_action():
     add_aptnotifier_prefs_action()
     add_about_action()
     add_quit_action()
+    command_string = "deartifact-xfce-systray-icons .05 &"
+    subprocess.call([command_string], shell=True)                  
 
 def add_quit_action():
     ActionsMenu.addSeparator()

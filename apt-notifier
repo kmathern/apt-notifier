@@ -62,7 +62,12 @@ if [ "$?" = "0" ]
 fi
 
 # start the notifier (nicely)
-ionice -c3 nice -n19 python /usr/bin/apt-notifier.py& disown -h; deartifact-xfce-systray-icons 30 2>&1 1>/dev/null &
+#ionice -c3 nice -n19 python /usr/bin/apt-notifier.py& disown -h; deartifact-xfce-systray-icons 30 2>&1 1>/dev/null &
+ionice -c3 nice -n19 python /usr/bin/apt-notifier.py& disown -h
+
+# Fix Systray Icons
+#sleep 3
+#declare -A B=([true]=false [false]=true); xp() { xfconf-query -c xfce4-panel -p "${@}" ;}; SF=$(xp /plugins  --list | grep -m1 /show-frame 2>/dev/null) || exit 0; xp $SF -n -t bool -s ${B[$(xp $SF)]}; xp $SF -n -t bool -s ${B[$(xp $SF)]};
 
 exit 0
 
